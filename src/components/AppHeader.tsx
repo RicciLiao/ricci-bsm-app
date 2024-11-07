@@ -1,14 +1,14 @@
 import {AppBar, Box, FormControlLabel, FormGroup, IconButton, Switch, Toolbar, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
-import {custom, selectCurrentCss} from "../features/AppThemeSlice.ts";
 import React from "react";
+import {custom, selectCurrentCss} from "../features/appThemeSlice.ts";
 
 export const AppHeader = () => {
 
-    const appThemeStatus = useAppSelector(selectCurrentCss);
+    const appTheme = useAppSelector(selectCurrentCss);
     const dispatch = useAppDispatch();
 
-    const handleCssSwitch = (event: React.ChangeEvent) => {
+    const handleCssSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(custom(event.target.checked));
     }
 
@@ -26,8 +26,9 @@ export const AppHeader = () => {
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}></Typography>
                     <FormGroup>
-                        <FormControlLabel control={<Switch checked={appThemeStatus} onChange={handleCssSwitch} color="error"/>}
-                                          label="Custom theme"/>
+                        <FormControlLabel
+                            control={<Switch checked={appTheme} onChange={handleCssSwitch} color="error"/>}
+                            label="Custom theme"/>
                     </FormGroup>
                 </Toolbar>
             </AppBar>

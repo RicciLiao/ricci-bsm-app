@@ -1,8 +1,8 @@
 import {Box, CardMedia, Checkbox, CircularProgress, Grid2, IconButton, Stack, styled, Typography} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import {useLazyCaptchaQuery} from "../features/api/ApiSlice.ts";
 import {LoadingButton} from "@mui/lab";
+import {useLazyCaptchaQuery} from "../app/api/apiSlice.ts";
 
 export const AppCaptcha = () => {
     const [getCaptcha, {data, isFetching}] = useLazyCaptchaQuery();

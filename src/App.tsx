@@ -1,33 +1,36 @@
 import './App.css'
-import {SignUpComp} from "./features/user/SignUpComp.tsx";
+import {SignUpComp} from "./features/user/sign-up/SignUpComp.tsx";
 import {ThemeProvider} from "@mui/material";
 import {AppTheme} from "./theme/AppTheme.ts";
 import {AppHeader} from "./components/AppHeader.tsx";
 import {useAppSelector} from "./app/hooks.ts";
-import {selectCurrentCss} from "./features/AppThemeSlice.ts";
+import {AppSnackbarProvider} from "./components/AppSnackbarProvider.tsx";
+import {selectCurrentCss} from "./features/appThemeSlice.ts";
 
 function App() {
 
     const appThemeStatus = useAppSelector(selectCurrentCss);
+    const AppSection = () => {
+
+        return (
+            <section>
+                <AppSnackbarProvider/>
+                <AppHeader/>
+                <SignUpComp/>
+            </section>
+        );
+    };
 
     if (appThemeStatus) {
 
         return (
             <ThemeProvider theme={AppTheme}>
-                <section>
-                    <AppHeader/>
-                    <SignUpComp/>
-                </section>
+                <AppSection/>
             </ThemeProvider>
         );
     }
 
-    return (
-        <section>
-            <AppHeader/>
-            <SignUpComp/>
-        </section>
-    );
+    return (<AppSection/>);
 }
 
 export default App

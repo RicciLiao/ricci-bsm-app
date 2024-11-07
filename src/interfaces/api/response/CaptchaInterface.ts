@@ -1,4 +1,4 @@
-import {ResponseDataInterface} from "./ResponseDataInterface.ts";
+import {ResponseDataInterface} from "./ResponseInterface.ts";
 
 export interface CaptchaInterface extends ResponseDataInterface {
     k: string,

@@ -1,5 +1,5 @@
-import {createSlice, PayloadAction, SliceCaseReducers} from "@reduxjs/toolkit";
 import {RootState} from "../app/store.ts";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface AppThemeState {
     customCss: boolean,
@@ -9,14 +9,12 @@ const initialState: AppThemeState = {
     customCss: true,
 }
 
-const appThemeSlice = createSlice<AppThemeState, SliceCaseReducers<AppThemeState>>({
+const appThemeSlice = createSlice({
     name: 'appTheme',
     initialState,
     reducers: {
-        custom: {
-            reducer(state: RootState, action: PayloadAction<boolean>) {
-                state.customCss = action.payload;
-            },
+        custom(state: AppThemeState, action: PayloadAction<boolean>) {
+            state.customCss = action.payload;
         },
     }
 });

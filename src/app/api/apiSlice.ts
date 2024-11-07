@@ -1,17 +1,20 @@
 import {BaseQueryFn, createApi} from "@reduxjs/toolkit/query/react";
-import {ResponseInterface} from "../../interfaces/response/ResponseInterface.ts";
-import {Constants} from "../../common/Constants.ts";
-import {BooleanResult} from "../../interfaces/response/SimpleResponseInterface.ts";
-import {ResponseDataInterface} from "../../interfaces/response/ResponseDataInterface.ts";
-import {CaptchaInterface} from "../../interfaces/response/CaptchaInterface.ts";
-import {VerifyCaptchaInterface} from "../../interfaces/request/VerifyCaptchaInterface.ts";
+import {
+    BooleanResult,
+    ResponseDataInterface,
+    ResponseErrorInterface,
+    ResponseInterface
+} from "../../interfaces/api/response/ResponseInterface.ts";
+import {AppConstants} from "../../common/AppConstants.ts";
+import {CaptchaInterface} from "../../interfaces/api/response/CaptchaInterface.ts";
+import {VerifyCaptchaInterface} from "../../interfaces/api/request/VerifyCaptchaInterface.ts";
 
 export const apiBaseQuery: BaseQueryFn<{
     url: string;
     method: string;
     body?: any
 }, ResponseInterface<ResponseDataInterface>,
-    { data: ResponseInterface<ResponseDataInterface>; status: any },
+    ResponseInterface<ResponseErrorInterface>,
     { headers?: any }> = async (
     {url, method, body},
     _api,
@@ -26,9 +29,10 @@ export const apiBaseQuery: BaseQueryFn<{
             ...extraOptions?.headers
         }
     };
-    const errorResponse: ResponseInterface<ResponseDataInterface> = {
+    const errorResponse: ResponseInterface<ResponseErrorInterface> = {
         data: {
-            date: new Date().getMilliseconds()
+            status: null,
+            date: 0
         },
         message: null,
         code: -1
@@ -37,23 +41,25 @@ export const apiBaseQuery: BaseQueryFn<{
     try {
         const response = await fetch(baseUrl + url, options);
         if (!response.ok) {
+            errorResponse.data.status = response.status;
+            errorResponse.data.date = new Date().getTime();
 
-            return {error: {data: errorResponse, status: response.status}};
+            return {error: errorResponse};
         }
         const data = await response.json();
 
         return {data};
     } catch (error) {
+        errorResponse.data.status = "FETCH_ERROR";
+        errorResponse.data.date = new Date().getTime();
 
-        return {error: {data: errorResponse, status: "FETCH_ERROR"}};
+        return {error: errorResponse};
     }
 };
 
 export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: async (args, api, extraOptions) => {
-        // mock network delay
-        //await new Promise((resolve) => setTimeout(resolve, 2000));
 
         return apiBaseQuery(args, api, extraOptions);
     },
@@ -66,7 +72,7 @@ export const apiSlice = createApi({
         verifyCache: builder.mutation<ResponseInterface<BooleanResult>, VerifyCaptchaInterface>({
             query: (arg) => ({
                 url: "/captcha",
-                method: Constants.HTTP_METHOD_POST,
+                method: AppConstants.HTTP_METHOD_POST,
                 body: arg
             }),
         }),
