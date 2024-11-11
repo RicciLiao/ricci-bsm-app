@@ -1,8 +1,8 @@
 import {Action, configureStore, ThunkAction} from "@reduxjs/toolkit";
-import {apiErrorMiddleware} from "./middleware/apiErrorMiddleware.ts";
 import appThemeSlice from "../features/appThemeSlice.ts";
 import appSnackbarSlice from "../features/appSnackbarSlice.ts";
 import {apiSlice} from "./api/apiSlice.ts";
+import {apiErrorMiddleware} from "./middleware/apiErrorMiddleware.ts";
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +12,8 @@ export const store = configureStore({
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .concat(apiSlice.middleware)
-        .concat(apiErrorMiddleware),
+        .concat(apiErrorMiddleware)
+    ,
 });
 
 export type AppStore = typeof store;

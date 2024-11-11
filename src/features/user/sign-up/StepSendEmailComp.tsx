@@ -35,10 +35,9 @@ export const StepSendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: Si
                 // @ts-ignore
                 submitStep.stepSubmitResult.current = result.data.result;
             })
-            .catch((error) => {
+            .catch(() => {
                 submitStep.stepIsLoadingState[1](false);
                 submitStep.stepSubmitResult.current = false;
-                console.log(error);
             })
 
     }

@@ -8,65 +8,115 @@ import {
 import {AppConstants} from "../../common/AppConstants.ts";
 import {CaptchaInterface} from "../../interfaces/api/response/CaptchaInterface.ts";
 import {VerifyCaptchaInterface} from "../../interfaces/api/request/VerifyCaptchaInterface.ts";
+import {isPlainObject} from "@reduxjs/toolkit";
 
-export const apiBaseQuery: BaseQueryFn<{
-    url: string;
-    method: string;
-    body?: any
-}, ResponseInterface<ResponseDataInterface>,
-    ResponseInterface<ResponseErrorInterface>,
-    { headers?: any }> = async (
-    {url, method, body},
-    _api,
-    extraOptions
-) => {
-    const baseUrl = '/api';
-    const options: RequestInit = {
-        method: method,
-        body: body ? JSON.stringify(body) : null,
-        headers: {
-            "Content-Type": "application/json",
-            ...extraOptions?.headers
-        }
-    };
-    const errorResponse: ResponseInterface<ResponseErrorInterface> = {
+const errorResponse = (status: any, message: string): ResponseInterface<ResponseErrorInterface> => {
+
+    return {
         data: {
-            status: null,
-            date: 0
+            status,
+            date: new Date().getTime()
         },
-        message: null,
+        message,
         code: -1
     }
+}
+
+interface ApiBaseRequestInit extends RequestInit {
+    url: string;
+    signal: AbortSignal;
+    timeout?: number,
+    abortController: AbortController;
+}
+
+const handleHeaders = (headers: HeadersInit | undefined, body: any): Headers => {
+    const result = headers ? new Headers(headers) : new Headers();
+
+    //content-type
+    if (!result.has("content-type")) {
+        if (typeof body === "object" && (isPlainObject(body) || Array.isArray(body) || typeof body.toJSON === "function")) {
+            result.set("content-type", "application/json");
+        }
+    }
+
+    return result;
+}
+
+const handleBody = (body: any, headers: Headers): BodyInit => {
+    if (body) {
+        if (headers.has("content-type") && "application/json" === headers.get("content-type")) {
+
+            return JSON.stringify(body);
+        }
+    }
+
+    return body;
+}
+
+const fetchApi = async (url: string, arg: ApiBaseRequestInit) => {
+    let timeout = false;
+    let timeoutId = setTimeout(() => {
+        timeout = true;
+        arg.abortController.abort();
+    }, arg.timeout);
 
     try {
-        const response = await fetch(baseUrl + url, options);
+        const response = await fetch(url, arg);
         if (!response.ok) {
-            errorResponse.data.status = response.status;
-            errorResponse.data.date = new Date().getTime();
 
-            return {error: errorResponse};
+            return {error: errorResponse(response.status, "1")};
         }
         const data = await response.json();
 
         return {data};
     } catch (error) {
-        errorResponse.data.status = "FETCH_ERROR";
-        errorResponse.data.date = new Date().getTime();
 
-        return {error: errorResponse};
+        return {error: errorResponse(timeout ? "TIME_OUT" : "FETCH_ERROR", "2")};
+    } finally {
+        clearTimeout(timeoutId)
+        arg.abortController.signal.removeEventListener("abort", arg.abortController.abort);
     }
+}
+
+export const apiBaseQuery: BaseQueryFn<
+    ApiBaseRequestInit,
+    ResponseInterface<ResponseDataInterface>,
+    ResponseInterface<ResponseErrorInterface>
+> = async (
+    args,
+    _api
+) => {
+    const baseUrl = '/api';
+    const headers: Headers = handleHeaders(args.headers, args.body);
+    const body: BodyInit = handleBody(args.body, headers);
+
+    const abortController = new AbortController();
+    _api.signal.addEventListener("abort", abortController.abort);
+
+    const options: ApiBaseRequestInit = {
+        ...args,
+        body,
+        headers,
+        abortController,
+        signal: abortController.signal,
+        timeout: args.timeout ? args.timeout : 5000
+    };
+
+    return fetchApi(baseUrl + args.url, options)
 };
 
 export const apiSlice = createApi({
     reducerPath: "api",
-    baseQuery: async (args, api, extraOptions) => {
+    baseQuery: async (args, api) => {
 
-        return apiBaseQuery(args, api, extraOptions);
+        return apiBaseQuery(args, api, {});
     },
     endpoints: builder => ({
         captcha: builder.query<ResponseInterface<CaptchaInterface>, void>({
             query: () => ({
                 url: "/captcha",
+                method: AppConstants.HTTP_METHOD_GET,
+                timeout: 3000
             }),
         }),
         verifyCache: builder.mutation<ResponseInterface<BooleanResult>, VerifyCaptchaInterface>({

@@ -32,8 +32,8 @@ const AppSnackbar = () => {
             enqueueSnackbar(appSnackBarState.message + appSnackBarState.date,
                 {
                     variant: "alert",
-                    persist: true,
-                    /*autoHideDuration: 6000,*/
+                    /*persist: true,*/
+                    autoHideDuration: 6000,
                     preventDuplicate: true,
                     onClose: () => dispatch(remove()),
                     data: appAlert
