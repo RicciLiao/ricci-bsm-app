@@ -25,7 +25,7 @@ export const apiErrorMiddleware: Middleware = (api: MiddlewareAPI) => (next) => 
                 message: action.payload.message,
                 date: action.payload.data.date,
                 alertType: AppConstants.SNACKBAR_SEVERITY_TYPE.error
-            }
+            };
             api.dispatch(add(appSnackBar))
         }
     }

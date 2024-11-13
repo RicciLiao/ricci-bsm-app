@@ -10,6 +10,29 @@ import {CaptchaInterface} from "../../interfaces/api/response/CaptchaInterface.t
 import {VerifyCaptchaInterface} from "../../interfaces/api/request/VerifyCaptchaInterface.ts";
 import {isPlainObject} from "@reduxjs/toolkit";
 
+export const apiSlice = createApi({
+    reducerPath: "api",
+    baseQuery: async (args, api) => {
+
+        return apiBaseQuery(args, api, {});
+    },
+    endpoints: builder => ({
+        captcha: builder.query<ResponseInterface<CaptchaInterface>, void>({
+            query: () => ({
+                url: "/captcha",
+                method: AppConstants.HTTP_METHOD_GET
+            }),
+        }),
+        verifyCache: builder.mutation<ResponseInterface<BooleanResult>, VerifyCaptchaInterface>({
+            query: (arg) => ({
+                url: "/captcha",
+                method: AppConstants.HTTP_METHOD_POST,
+                body: arg
+            }),
+        }),
+    })
+});
+
 const errorResponse = (status: any, message: string): ResponseInterface<ResponseErrorInterface> => {
 
     return {
@@ -104,30 +127,6 @@ export const apiBaseQuery: BaseQueryFn<
 
     return fetchApi(baseUrl + args.url, options)
 };
-
-export const apiSlice = createApi({
-    reducerPath: "api",
-    baseQuery: async (args, api) => {
-
-        return apiBaseQuery(args, api, {});
-    },
-    endpoints: builder => ({
-        captcha: builder.query<ResponseInterface<CaptchaInterface>, void>({
-            query: () => ({
-                url: "/captcha",
-                method: AppConstants.HTTP_METHOD_GET,
-                timeout: 3000
-            }),
-        }),
-        verifyCache: builder.mutation<ResponseInterface<BooleanResult>, VerifyCaptchaInterface>({
-            query: (arg) => ({
-                url: "/captcha",
-                method: AppConstants.HTTP_METHOD_POST,
-                body: arg
-            }),
-        }),
-    })
-});
 
 export const {
     useCaptchaQuery,
