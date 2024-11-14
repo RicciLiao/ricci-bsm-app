@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
 import React from "react";
 import {custom, selectCurrentCss} from "../features/appThemeSlice.ts";
 
-export const AppHeader = () => {
+const AppHeader = () => {
 
     const appTheme = useAppSelector(selectCurrentCss);
     const dispatch = useAppDispatch();
@@ -34,4 +34,6 @@ export const AppHeader = () => {
             </AppBar>
         </Box>
     );
-}
+};
+
+export {AppHeader};

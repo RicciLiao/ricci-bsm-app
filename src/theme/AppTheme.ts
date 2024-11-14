@@ -4,7 +4,7 @@ const TEXT_FIELD_COLOR = 'gray';
 const TEXT_FIELD_COLOR_HOVER = 'green';
 const TEXT_FIELD_COLOR_FOCUS = 'blue';
 
-export const AppTheme = createTheme({
+const AppTheme = createTheme({
         components: {
             MuiTextField: {
                 styleOverrides: {
@@ -121,3 +121,5 @@ export const AppTheme = createTheme({
         }
     })
 ;
+
+export {AppTheme};

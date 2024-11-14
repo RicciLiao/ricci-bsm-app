@@ -5,7 +5,6 @@ import {CustomContentProps, SnackbarContent, SnackbarProvider, useSnackbar} from
 import {Alert, AlertColor, AlertTitle, IconButton, Typography} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import {format} from "date-fns";
-import {AppConstants} from "../common/AppConstants.ts";
 
 interface AppAlertInterface {
     message: string,
@@ -23,11 +22,11 @@ const AppSnackbar = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (appSnackBarState.message) {
+        if (appSnackBarState.message && appSnackBarState.alertType) {
             const appAlert: AppAlertInterface = {
                 message: appSnackBarState.message,
-                date: appSnackBarState.date ? appSnackBarState.date : new Date().getTime(),
-                severity: appSnackBarState.alertType ? appSnackBarState.alertType : AppConstants.SNACKBAR_SEVERITY_TYPE.info,
+                date: appSnackBarState.date,
+                severity: appSnackBarState.alertType,
             };
             enqueueSnackbar(appSnackBarState.message + appSnackBarState.date,
                 {
@@ -44,7 +43,7 @@ const AppSnackbar = () => {
     return (<></>);
 };
 
-export const AppSnackbarProvider = () => {
+const AppSnackbarProvider = () => {
 
     return (
         <SnackbarProvider maxSnack={3}
@@ -99,3 +98,5 @@ const AppAlert = forwardRef<HTMLDivElement, AppAlertProps>((props, ref) => {
         </SnackbarContent>
     );
 });
+
+export {AppSnackbarProvider};

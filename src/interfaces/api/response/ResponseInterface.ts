@@ -1,21 +1,29 @@
-export interface ResponseInterface<T extends ResponseDataInterface> {
+interface ResponseInterface<T extends ResponseDataInterface> {
     code: number,
     message: string | null;
     data: T,
 }
 
 
-export interface ResponseDataInterface {
+interface ResponseDataInterface {
 }
 
-export interface ResponseEmptyDataInterface extends ResponseDataInterface {
+interface ResponseEmptyDataInterface extends ResponseDataInterface {
 }
 
-export interface BooleanResult extends ResponseDataInterface {
+interface BooleanResult extends ResponseDataInterface {
     result: boolean,
 }
 
-export interface ResponseErrorInterface extends ResponseDataInterface {
+interface ResponseStatusInterface extends ResponseDataInterface {
     status: any,
-    date: number
+    date: number,
+}
+
+export {
+    type ResponseInterface,
+    type ResponseDataInterface,
+    type ResponseEmptyDataInterface,
+    type BooleanResult,
+    type ResponseStatusInterface
 }

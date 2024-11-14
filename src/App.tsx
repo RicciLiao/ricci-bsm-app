@@ -7,19 +7,9 @@ import {useAppSelector} from "./app/hooks.ts";
 import {AppSnackbarProvider} from "./components/AppSnackbarProvider.tsx";
 import {selectCurrentCss} from "./features/appThemeSlice.ts";
 
-function App() {
+const App = () => {
 
     const appThemeStatus = useAppSelector(selectCurrentCss);
-    const AppSection = () => {
-
-        return (
-            <section>
-                <AppSnackbarProvider/>
-                <AppHeader/>
-                <SignUpComp/>
-            </section>
-        );
-    };
 
     if (appThemeStatus) {
 
@@ -32,5 +22,16 @@ function App() {
 
     return (<AppSection/>);
 }
+
+const AppSection = () => {
+
+    return (
+        <section>
+            <AppSnackbarProvider/>
+            <AppHeader/>
+            <SignUpComp/>
+        </section>
+    );
+};
 
 export default App

@@ -4,8 +4,7 @@ import {Checkbox, FormControlLabel, FormGroup, Grid2, TextField} from "@mui/mate
 import {AppCaptcha} from "../../../components/AppCaptcha.tsx";
 import {LoadingButton} from "@mui/lab";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "./SignUpStepComp.tsx";
-import {useSignUpSendPostMutation} from "../userSlice.ts";
-import {apiSlice} from "../../../app/api/apiSlice.ts";
+import {bsmSlice, useSignUpSendPostMutation} from "../../../app/api/bsmSlice.ts";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     userEmail: HTMLInputElement,
@@ -16,9 +15,9 @@ interface SignUpFormElements extends HTMLFormElement {
     readonly elements: SignUpFormFields
 }
 
-export const StepSendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
+const StepSendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
     const [sendPost, {isLoading}] = useSignUpSendPostMutation();
-    const {data: captcha} = useAppSelector(apiSlice.endpoints?.captcha.select());
+    const {data: captcha} = useAppSelector(bsmSlice.endpoints?.captcha.select());
 
     const handleSubmit = (e: React.FormEvent<SignUpFormElements>) => {
         e.preventDefault();
@@ -32,7 +31,6 @@ export const StepSendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: Si
             .unwrap()
             .then((result) => {
                 submitStep.stepIsLoadingState[1](false);
-                // @ts-ignore
                 submitStep.stepSubmitResult.current = result.data.result;
             })
             .catch(() => {
@@ -67,4 +65,6 @@ export const StepSendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: Si
             </FormGroup>
         </FormBox>
     );
-}
+};
+
+export {StepSendEmailComp};

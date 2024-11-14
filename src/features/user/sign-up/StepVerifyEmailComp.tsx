@@ -3,7 +3,7 @@ import * as React from "react";
 import {TextField} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "./SignUpStepComp.tsx";
-import {apiSlice, useVerifyCacheMutation} from "../../../app/api/apiSlice.ts";
+import {bsmSlice, useVerifyCacheMutation} from "../../../app/api/bsmSlice.ts";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     userEmail: HTMLInputElement,
@@ -14,9 +14,9 @@ interface SignUpFormElements extends HTMLFormElement {
     readonly elements: SignUpFormFields
 }
 
-export const StepVerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
+const StepVerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
     const [verify, {isLoading}] = useVerifyCacheMutation();
-    const {data: captcha} = useAppSelector(apiSlice.endpoints?.captcha.select());
+    const {data: captcha} = useAppSelector(bsmSlice.endpoints?.captcha.select());
 
     const handleSubmit = async (e: React.FormEvent<SignUpFormElements>) => {
         e.preventDefault();
@@ -42,4 +42,6 @@ export const StepVerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: 
             </LoadingButton>
         </FormBox>
     );
-}
+};
+
+export {StepVerifyEmailComp};

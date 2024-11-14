@@ -2,9 +2,9 @@ import {Box, CardMedia, Checkbox, CircularProgress, Grid2, IconButton, Stack, st
 import {useEffect, useRef, useState} from "react";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import {LoadingButton} from "@mui/lab";
-import {useLazyCaptchaQuery} from "../app/api/apiSlice.ts";
+import {useLazyCaptchaQuery} from "../app/api/bsmSlice.ts";
 
-export const AppCaptcha = () => {
+const AppCaptcha = () => {
     const [getCaptcha, {data, isFetching}] = useLazyCaptchaQuery();
     const [lifespan, setLifespan] = useState<number>(0);
     const lifespanTimer = useRef<NodeJS.Timeout | null>(null);
@@ -55,7 +55,7 @@ export const AppCaptcha = () => {
         );
     }
 
-    const MyContainer = styled(Box)(({}) => ({
+    const MyContainer = styled(Box)(() => ({
         position: "relative",
         height: "56px",
         display: "flex",
@@ -63,12 +63,12 @@ export const AppCaptcha = () => {
         alignItems: "center",
     }));
 
-    const MyCheckbox = styled(Checkbox)(({}) => ({
+    const MyCheckbox = styled(Checkbox)(() => ({
         position: "absolute",
         color: "rgba(0,0,0,0) !important",
         zIndex: 0
     }));
-    const MyLoadingButton = styled(LoadingButton)(({}) => ({
+    const MyLoadingButton = styled(LoadingButton)(() => ({
         position: "absolute",
         zIndex: 1,
         height: "100%",
@@ -89,4 +89,6 @@ export const AppCaptcha = () => {
             </Grid2>
         </Grid2>
     );
-}
+};
+
+export {AppCaptcha};

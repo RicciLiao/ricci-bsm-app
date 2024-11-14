@@ -2,5 +2,5 @@ projectKey=ricci-bsm-app
 serverUrl=http://192.168.165.34:9000
 serverVersion=10.7.0.96327
 dashboardUrl=http://192.168.165.34:9000/dashboard?id=ricci-bsm-app
-ceTaskId=655e5db2-194d-4525-b2ce-d5622cff0861
-ceTaskUrl=http://192.168.165.34:9000/api/ce/task?id=655e5db2-194d-4525-b2ce-d5622cff0861
+ceTaskId=4ca52980-5e9b-4b6b-8f65-c7960f3b9639
+ceTaskUrl=http://192.168.165.34:9000/api/ce/task?id=4ca52980-5e9b-4b6b-8f65-c7960f3b9639

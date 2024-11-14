@@ -1,4 +1,4 @@
-export interface UserInterface {
+interface UserInterface {
     id?: number | null,
     loginName?: string | null,
     userName?: string | null,
@@ -12,3 +12,5 @@ export interface UserInterface {
     updatedDtm?: string | null,
     version?: string | null
 }
+
+export {type UserInterface};

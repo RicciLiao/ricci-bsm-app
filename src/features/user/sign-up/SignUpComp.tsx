@@ -4,12 +4,13 @@ import {LoadingButton} from "@mui/lab";
 import {AppConstants} from "../../../common/AppConstants.ts";
 import {SignUpStepCompProps, SignUpStepInterface, StepBox} from "./SignUpStepComp.tsx";
 
-export const SignUpComp = () => {
+const SignUpComp = () => {
     const [activeStep, setActiveStep] = useState<SignUpStepInterface>(AppConstants.SIGN_UP_STEP[0]);
     const [skipStepSet, setSkipStepSet] = useState<Set<SignUpStepInterface>>(new Set<SignUpStepInterface>());
+    const [stepIsLoadingState, setStepIsLoadingState] = useState<boolean>(false);
     const submitStep: SignUpStepCompProps = {
         stepSubmitRef: useRef<HTMLAnchorElement | null>(null),
-        stepIsLoadingState: useState<boolean>(false),
+        stepIsLoadingState: [stepIsLoadingState, setStepIsLoadingState],
         stepSubmitResult: useRef<boolean>(false),
     }
 
@@ -86,4 +87,6 @@ export const SignUpComp = () => {
             </Box>
         </Card>
     );
-}
+};
+
+export {SignUpComp};

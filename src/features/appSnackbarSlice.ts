@@ -5,19 +5,20 @@ import {AppSnackbarInterface} from "../interfaces/AppSnackbarInterface.ts";
 interface AppSnackbarState extends AppSnackbarInterface {
 }
 
+const initialState = {} as AppSnackbarState;
+
 const appSnackbarSlice = createSlice({
     name: "appSnackbar",
-    initialState: {} as AppSnackbarState,
+    initialState,
     reducers: {
         add: (state: AppSnackbarState, action: PayloadAction<AppSnackbarInterface>) => {
             state.message = action.payload.message;
             state.date = action.payload.date;
             state.alertType = action.payload.alertType;
         },
-        remove: (state: AppSnackbarState) => {
-            state.message = null;
-            state.date = null;
-            state.alertType = null;
+        remove: () => {
+
+            return initialState;
         }
     }
 });

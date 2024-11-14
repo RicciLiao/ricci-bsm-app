@@ -1,15 +1,15 @@
 import React from "react";
 import {Box, styled} from "@mui/material";
 
-export type SignUpStepComp = React.FunctionComponent<{ submitStep: SignUpStepCompProps }>;
+type SignUpStepComp = React.FunctionComponent<{ submitStep: SignUpStepCompProps }>;
 
-export interface SignUpStepCompProps {
+interface SignUpStepCompProps {
     stepSubmitRef: React.MutableRefObject<HTMLAnchorElement | null>,
     stepIsLoadingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>],
     stepSubmitResult: React.MutableRefObject<boolean>,
 }
 
-export interface SignUpStepInterface {
+interface SignUpStepInterface {
     code: string,
     description: string,
     seq: number,
@@ -17,14 +17,16 @@ export interface SignUpStepInterface {
     optional: boolean,
 }
 
-export const StepBox = styled(Box)(() => ({
+const StepBox = styled(Box)(() => ({
     height: '100%',
     padding: '20px',
 }));
 
-export const FormBox = styled('form')(() => ({
+const FormBox = styled('form')(() => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
     gap: '20px',
 }));
+
+export {type SignUpStepComp, type SignUpStepInterface, StepBox, FormBox, type SignUpStepCompProps}

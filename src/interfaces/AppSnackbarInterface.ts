@@ -1,7 +1,10 @@
-import {AlertColor} from "@mui/material/Alert/Alert";
+import {AlertColor} from "@mui/material";
 
-export interface AppSnackbarInterface {
-    message: string | null,
-    date: number | null,
-    alertType: AlertColor | null,
+interface AppSnackbarInterface {
+    code: number,
+    date: number,
+    alertType: AlertColor,
+    message: string,
 }
+
+export {type AppSnackbarInterface};
