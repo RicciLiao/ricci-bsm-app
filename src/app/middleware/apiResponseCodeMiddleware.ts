@@ -1,11 +1,11 @@
 import {isFulfilled, isRejectedWithValue, Middleware, MiddlewareAPI} from "@reduxjs/toolkit";
 import {add} from "../../features/appSnackbarSlice.ts";
-import {AppSnackbarInterface} from "../../interfaces/AppSnackbarInterface.ts";
+import {AppSnackbar} from "../../interfaces/AppSnackbar.ts";
 import {
     ResponseDataInterface,
-    ResponseInterface,
+    Response,
     ResponseStatusInterface
-} from "../../interfaces/api/response/ResponseInterface.ts";
+} from "../../interfaces/api/response/Response.ts";
 import {AppConstants} from "../../common/AppConstants.ts";
 import {AppDispatch, RootState} from "../store.ts";
 import {messageSlice} from "../api/messageSlice.ts";
@@ -22,7 +22,7 @@ const getProjectCodeByAction = (action: ApiPayloadAction): string => {
     return "";
 }
 
-const isResponseStatusPayload = (payload: ResponseInterface<ResponseDataInterface>): payload is ResponseInterface<ResponseStatusInterface> => {
+const isResponseStatusPayload = (payload: Response<ResponseDataInterface>): payload is Response<ResponseStatusInterface> => {
 
     return payload && payload.code === -1;
 }
@@ -48,7 +48,7 @@ const isApiSliceActionWithMeta = (action: ApiPayloadAction): boolean => {
 
 const apiResponseCodeMiddleware: Middleware = (api: MiddlewareAPI<AppDispatch, RootState>) => next => async action => {
     if (isApiSliceAction(action) && isApiSliceActionCompletedWithError(action)) {
-        let appSnackBar: AppSnackbarInterface;
+        let appSnackBar: AppSnackbar;
         const payload = action.payload;
         if (isResponseStatusPayload(payload)) {
             appSnackBar = {

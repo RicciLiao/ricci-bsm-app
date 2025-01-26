@@ -1,9 +1,9 @@
 import {BaseQueryFn, createApi} from "@reduxjs/toolkit/query/react";
 import {
     ResponseDataInterface,
-    ResponseInterface,
+    Response,
     ResponseStatusInterface
-} from "../../interfaces/api/response/ResponseInterface.ts";
+} from "../../interfaces/api/response/Response.ts";
 import {isPlainObject, PayloadAction} from "@reduxjs/toolkit";
 
 interface ApiBaseRequestInit extends RequestInit {
@@ -40,8 +40,8 @@ const fetchApi = async (url: string, arg: ApiBaseRequestInit) => {
 
 const apiBaseQuery: BaseQueryFn<
     ApiBaseRequestInit,
-    ResponseInterface<ResponseDataInterface>,
-    ResponseInterface<ResponseStatusInterface>
+    Response<ResponseDataInterface>,
+    Response<ResponseStatusInterface>
 > = async (
     args,
     _api
@@ -65,7 +65,7 @@ const apiBaseQuery: BaseQueryFn<
     return fetchApi(baseUrl + args.url, options)
 };
 
-const errorResponse = (status: any, message: string): ResponseInterface<ResponseStatusInterface> => {
+const errorResponse = (status: any, message: string): Response<ResponseStatusInterface> => {
 
     return {
         data: {
@@ -101,7 +101,7 @@ const handleBody = (body: any, headers: Headers): BodyInit => {
     return body;
 }
 
-type ApiPayloadAction = PayloadAction<ResponseInterface<ResponseDataInterface>, string, any, any>;
+type ApiPayloadAction = PayloadAction<Response<ResponseDataInterface>, string, any, any>;
 
 const apiSlice = createApi({
     reducerPath: "api",

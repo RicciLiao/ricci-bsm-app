@@ -1,4 +1,4 @@
-interface MessageCodeInterface {
+interface MessageCode {
     id: number;
     code: number;
     type: string;
@@ -12,4 +12,4 @@ interface MessageCodeInterface {
     version: number;
 }
 
-export {type MessageCodeInterface};
+export {type MessageCode};

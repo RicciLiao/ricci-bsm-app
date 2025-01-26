@@ -31,13 +31,28 @@ const SignUpComp = () => {
             }
         }
     }
-    const handleSkip = () => {
-        setActiveStep(AppConstants.SIGN_UP_STEP[AppConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1]);
+    const handleSkip = async () => {
+        /*setActiveStep(AppConstants.SIGN_UP_STEP[AppConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1]);
         setSkipStepSet((prevState) => {
             const newSet = new Set<SignUpStepInterface>(prevState);
             newSet.add(activeStep);
 
             return newSet;
+        });*/
+        myPromise().then(
+            function (data) {
+                console.log(data);
+            }
+        );
+        console.log("after myPromise!");
+    }
+
+    const myPromise = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(function () {
+                const data = "i am data!";
+                resolve(data);
+            }, 2000)
         });
     }
 

@@ -1,4 +1,4 @@
-interface ResponseInterface<T extends ResponseDataInterface> {
+interface Response<T extends ResponseDataInterface> {
     code: number,
     message: string | null;
     data: T,
@@ -21,7 +21,7 @@ interface ResponseStatusInterface extends ResponseDataInterface {
 }
 
 export {
-    type ResponseInterface,
+    type Response,
     type ResponseDataInterface,
     type ResponseEmptyDataInterface,
     type BooleanResult,
