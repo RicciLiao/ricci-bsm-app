@@ -6,7 +6,7 @@ interface AppThemeState {
 }
 
 const initialState: AppThemeState = {
-    customCss: false,
+    customCss: true,
 }
 
 const appThemeSlice = createSlice({

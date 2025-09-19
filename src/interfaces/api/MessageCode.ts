@@ -1,8 +1,8 @@
 interface MessageCode {
     id: number;
-    code: number;
-    type: string;
-    projectCode: string;
+    code: string;
+    level: string;
+    consumer: string;
     description: string;
     active: boolean;
     createdBy: number;

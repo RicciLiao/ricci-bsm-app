@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
-import {remove, selectCurrentSnackbar} from "../features/appSnackbarSlice.ts";
+import {removeSnackbar, selectCurrentSnackbar} from "../features/appSnackbarSlice.ts";
 import {forwardRef, useCallback, useEffect} from "react";
 import {CustomContentProps, SnackbarContent, SnackbarProvider, useSnackbar} from "notistack";
 import {Alert, AlertColor, AlertTitle, IconButton, Typography} from "@mui/material";
@@ -34,7 +34,7 @@ const AppSnackbar = () => {
                     /*persist: true,*/
                     autoHideDuration: 6000,
                     preventDuplicate: true,
-                    onClose: () => dispatch(remove()),
+                    onClose: () => dispatch(removeSnackbar()),
                     data: appAlert
                 });
         }

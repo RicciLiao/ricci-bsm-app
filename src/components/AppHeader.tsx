@@ -1,16 +1,30 @@
-import {AppBar, Box, FormControlLabel, FormGroup, IconButton, Switch, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Button, ButtonGroup, createTheme, IconButton, ThemeProvider, Toolbar, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
-import React from "react";
 import {custom, selectCurrentCss} from "../features/appThemeSlice.ts";
+import {apiSlice} from "../app/api/apiSlice";
 
 const AppHeader = () => {
 
     const appTheme = useAppSelector(selectCurrentCss);
     const dispatch = useAppDispatch();
 
-    const handleCssSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(custom(event.target.checked));
+    const changeStyle = () => {
+        dispatch(custom(!appTheme));
     }
+    const resetApiState = () => {
+        dispatch(apiSlice.util.resetApiState());
+    }
+
+    const theme = createTheme({
+        palette: {
+            on: {
+                main: "#00ff00",
+            },
+            off: {
+                main: "#aaaaaa",
+            },
+        },
+    });
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -25,11 +39,15 @@ const AppHeader = () => {
                     >
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}></Typography>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={<Switch checked={appTheme} onChange={handleCssSwitch} color="error"/>}
-                            label="Custom theme"/>
-                    </FormGroup>
+                    <ThemeProvider theme={theme}>
+                        <ButtonGroup variant="text">
+                            <Button variant={"text"} onClick={changeStyle} color={appTheme ? "on" : "off"}>
+                                Custom Style
+                            </Button>
+                            <Button variant={"text"} onClick={resetApiState} color={"warning"}>Clean All API State</Button>
+                            <Button>Three</Button>
+                        </ButtonGroup>
+                    </ThemeProvider>
                 </Toolbar>
             </AppBar>
         </Box>

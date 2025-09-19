@@ -1,31 +1,12 @@
-import {Box, CardMedia, Checkbox, CircularProgress, Grid2, IconButton, Stack, styled, Typography} from "@mui/material";
-import {useEffect, useRef, useState} from "react";
+import {Box, CardMedia, Checkbox, CircularProgress, Grid2, IconButton, Stack, styled} from "@mui/material";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import {LoadingButton} from "@mui/lab";
 import {useLazyCaptchaQuery} from "../app/api/bsmSlice.ts";
 
 const AppCaptcha = () => {
     const [getCaptcha, {data, isFetching}] = useLazyCaptchaQuery();
-    const [lifespan, setLifespan] = useState<number>(0);
-    const lifespanTimer = useRef<NodeJS.Timeout | null>(null);
-    useEffect(() => {
-        if (data) {
-            setLifespan(data.data.t);
-            lifespanTimer.current = setInterval(() => {
-                setLifespan((prevTime) => prevTime > 0 ? prevTime - 1 : 0);
-            }, 1000);
-            return () => {
-                if (lifespanTimer.current) {
-                    clearInterval(lifespanTimer.current)
-                }
-            };
-        }
-    }, [data]);
 
     const handleGetCaptcha = () => {
-        if (lifespanTimer.current) {
-            clearInterval(lifespanTimer.current);
-        }
         getCaptcha();
     }
 
@@ -36,10 +17,7 @@ const AppCaptcha = () => {
             <Grid2 container spacing={1}>
                 <Grid2 size={10}>
                     <Stack spacing={0} sx={{alignContent: 'center', alignItems: 'center'}}>
-                        <CardMedia component="img" src={captcha} sx={{width: '135px !important'}}/>
-                        <Typography variant={"caption"} sx={{fontStyle: 'italic !important'}}>
-                            lifespan: {lifespan} sec(s).
-                        </Typography>
+                        <CardMedia component="img" src={captcha} sx={{height: '55px !important'}}/>
                     </Stack>
                 </Grid2>
                 <Grid2 size={2} sx={{display: "flex"}}>

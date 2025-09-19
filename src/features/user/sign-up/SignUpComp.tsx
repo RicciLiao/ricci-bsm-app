@@ -11,14 +11,16 @@ const SignUpComp = () => {
     const submitStep: SignUpStepCompProps = {
         stepSubmitRef: useRef<HTMLAnchorElement | null>(null),
         stepIsLoadingState: [stepIsLoadingState, setStepIsLoadingState],
-        stepSubmitResult: useRef<boolean>(false),
+        stepSubmitResult: useRef<boolean>(null),
+        stepEmail: useRef<string>(null),
+        stepVerification: useRef<string>(null),
     }
 
     const handleNext = async () => {
         submitStep.stepSubmitRef.current?.click();
         await new Promise<void>((resolve) => {
             const stepSubmitResultChecker = setInterval(() => {
-                if (submitStep.stepSubmitResult.current) {
+                if (submitStep.stepSubmitResult.current != null) {
                     clearInterval(stepSubmitResultChecker);
                     resolve();
                 }
@@ -30,29 +32,15 @@ const SignUpComp = () => {
                 setActiveStep(AppConstants.SIGN_UP_STEP[nextIndex]);
             }
         }
+        submitStep.stepSubmitResult.current = null;
     }
     const handleSkip = async () => {
-        /*setActiveStep(AppConstants.SIGN_UP_STEP[AppConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1]);
+        setActiveStep(AppConstants.SIGN_UP_STEP[AppConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1]);
         setSkipStepSet((prevState) => {
             const newSet = new Set<SignUpStepInterface>(prevState);
             newSet.add(activeStep);
 
             return newSet;
-        });*/
-        myPromise().then(
-            function (data) {
-                console.log(data);
-            }
-        );
-        console.log("after myPromise!");
-    }
-
-    const myPromise = () => {
-        return new Promise((resolve, reject) => {
-            setTimeout(function () {
-                const data = "i am data!";
-                resolve(data);
-            }, 2000)
         });
     }
 

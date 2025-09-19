@@ -4,5 +4,10 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "include": ["src/@types", "src"]
+  "include": ["src/@types", "src"],
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": "src",
+    "typeRoots": ["src/@types", "node_modules/@types"]
+  }
 }

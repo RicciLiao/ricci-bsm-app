@@ -1,8 +1,9 @@
 import {Action, configureStore, ThunkAction} from "@reduxjs/toolkit";
 import appThemeSlice from "../features/appThemeSlice.ts";
 import {apiSlice} from "./api/apiSlice.ts";
-import {apiResponseCodeMiddleware} from "./middleware/apiResponseCodeMiddleware.ts";
 import appSnackbarSlice from "../features/appSnackbarSlice.ts";
+import {XResponseCodeMiddleware} from "./middleware/x/XResponseCodeMiddleware";
+import {XResponseRTKMiddleware} from "./middleware/x/XResponseRTKMiddleware";
 
 const store = configureStore({
     reducer: {
@@ -13,8 +14,8 @@ const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
             .concat(apiSlice.middleware)
-            .concat(apiResponseCodeMiddleware)
-    ,
+            .concat(new XResponseCodeMiddleware().build())
+            .concat(new XResponseRTKMiddleware().build())
 });
 
 export {store};

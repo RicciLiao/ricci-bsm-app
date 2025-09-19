@@ -1,14 +1,14 @@
-import {Response} from "../../interfaces/api/response/Response.ts";
 import {AppConstants} from "../../common/AppConstants.ts";
 import {apiSlice} from "./apiSlice.ts";
-import {GetMessage} from "../../interfaces/api/request/GetMessage.ts";
 import {MessageCode} from "../../interfaces/api/MessageCode.ts";
+import {XResponse} from "../../interfaces/api/x/response/XResponse.ts";
+import {GetMessage} from "../../interfaces/api/GetMessage";
 
 const messageSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getMessage: builder.query<Response<MessageCode>, GetMessage>({
+        getMessage: builder.query<XResponse<MessageCode>, GetMessage>({
             query: arg => ({
-                url: `/message/code/${arg.p}/${arg.c}`,
+                url: `/message/code/${arg.code}/${arg.consumer}`,
                 method: AppConstants.HTTP_METHOD_GET
             }),
         }),

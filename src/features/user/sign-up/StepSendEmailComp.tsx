@@ -1,10 +1,12 @@
 import {useAppSelector} from "../../../app/hooks.ts";
-import * as React from "react";
 import {Checkbox, FormControlLabel, FormGroup, Grid2, TextField} from "@mui/material";
 import {AppCaptcha} from "../../../components/AppCaptcha.tsx";
 import {LoadingButton} from "@mui/lab";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "./SignUpStepComp.tsx";
 import {bsmSlice, useSignUpSendPostMutation} from "../../../app/api/bsmSlice.ts";
+import {ResponseCodeEnum} from "../../../common/ResponseCodeEnum";
+import React from "react";
+import {AppTips} from "../../../common/AppTips";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     userEmail: HTMLInputElement,
@@ -30,31 +32,34 @@ const StepSendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpSte
         sendPost({k: captcha ? captcha.data.k : "", c: captchaCode, emailAddress})
             .unwrap()
             .then((result) => {
-                submitStep.stepIsLoadingState[1](false);
-                submitStep.stepSubmitResult.current = result.data.result;
+                submitStep.stepSubmitResult.current = result.code.id === ResponseCodeEnum.SUCCESS;
+                submitStep.stepEmail.current = emailAddress;
+                submitStep.stepVerification.current = result.data.result
             })
             .catch(() => {
-                submitStep.stepIsLoadingState[1](false);
                 submitStep.stepSubmitResult.current = false;
+                submitStep.stepEmail.current = '';
             })
-
+            .finally(() => {
+                submitStep.stepIsLoadingState[1](false);
+            });
     }
 
     return (
         <FormBox onSubmit={handleSubmit}>
-            <TextField required label="Email" variant="filled" name="userEmail"
-                       helperText="will use this email address for registration." fullWidth/>
+            <TextField required label="Email" variant="standard" name="userEmail"
+                       helperText={AppTips.USER_SIGN_UP_SEND_EMAIL_001} fullWidth/>
             <Grid2 container spacing={1}>
-                <Grid2 size={6}>
+                <Grid2 size={5}>
                     <TextField label="Captcha Code"
-                               id={"captcha"} name={"captcha"} variant={"filled"}
+                               id={"captcha"} name={"captcha"} variant={"standard"}
                                required/>
                 </Grid2>
-                <Grid2 size={6} sx={{alignContent: 'center', alignItems: 'center'}}>
+                <Grid2 size={7} sx={{alignContent: 'center', alignItems: 'center'}}>
                     <AppCaptcha/>
                 </Grid2>
             </Grid2>
-            <LoadingButton type={'submit'} sx={{width: '80px', margin: '0 auto'}}
+            <LoadingButton type={'submit'} sx={{width: '80px', margin: '0 auto', display: 'none'}}
                            size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>
                 {`Next >`}
             </LoadingButton>

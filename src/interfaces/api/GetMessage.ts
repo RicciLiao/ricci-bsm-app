@@ -1,6 +1,6 @@
 interface GetMessage {
-    p: string,
-    c: number,
+    consumer: string,
+    code: string,
 }
 
 export {type GetMessage};

@@ -12,7 +12,7 @@ const AppTheme = createTheme({
                         variants: [
                             {
                                 props: {
-                                    variant: 'filled'
+                                    variant: 'standard'
                                 },
                                 style: {
                                     '--TextField-color': 'gray',
@@ -48,7 +48,7 @@ const AppTheme = createTheme({
                     },
                 },
             },
-            MuiFilledInput: {
+            MuiInput: {
                 styleOverrides: {
                     root: {
                         backgroundColor: "transparent !important",
@@ -88,13 +88,6 @@ const AppTheme = createTheme({
                                 }
                             }
                         ]
-                    }
-                }
-            },
-            MuiTouchRipple: {
-                styleOverrides: {
-                    root: {
-                        opacity: 0,
                     }
                 }
             },

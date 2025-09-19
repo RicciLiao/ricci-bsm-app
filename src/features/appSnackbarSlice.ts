@@ -11,12 +11,12 @@ const appSnackbarSlice = createSlice({
     name: "appSnackbar",
     initialState,
     reducers: {
-        add: (state: AppSnackbarState, action: PayloadAction<AppSnackbar>) => {
+        addSnackbar: (state: AppSnackbarState, action: PayloadAction<AppSnackbar>) => {
             state.message = action.payload.message;
             state.date = action.payload.date;
             state.alertType = action.payload.alertType;
         },
-        remove: () => {
+        removeSnackbar: () => {
 
             return initialState;
         }
@@ -24,6 +24,6 @@ const appSnackbarSlice = createSlice({
 });
 
 export const selectCurrentSnackbar = (state: RootState) => state.appSnackbar;
-export const {add, remove} = appSnackbarSlice.actions;
+export const {addSnackbar, removeSnackbar} = appSnackbarSlice.actions;
 
 export default appSnackbarSlice.reducer;

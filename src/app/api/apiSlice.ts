@@ -1,10 +1,10 @@
 import {BaseQueryFn, createApi} from "@reduxjs/toolkit/query/react";
-import {
-    ResponseDataInterface,
-    Response,
-    ResponseStatusInterface
-} from "../../interfaces/api/response/Response.ts";
 import {isPlainObject, PayloadAction} from "@reduxjs/toolkit";
+import {XResponse} from "../../interfaces/api/x/response/XResponse";
+import {ResponseData} from "../../interfaces/api/x/response/data/ResponseData";
+import {BrokenHttp} from "../../interfaces/api/x/response/data/SimpleData";
+import {ResponseCodeEnum} from "../../common/ResponseCodeEnum";
+import {ResponseCodeMap} from "../../common/ResponseCodeMap";
 
 interface ApiBaseRequestInit extends RequestInit {
     url: string;
@@ -24,14 +24,14 @@ const fetchApi = async (url: string, arg: ApiBaseRequestInit) => {
         const response = await fetch(url, arg);
         if (!response.ok) {
 
-            return {error: errorResponse(response.status, "Unknown Error.")};
+            return {error: brokenResponse(response.status, response.statusText)};
         }
         const data = await response.json();
 
         return {data};
     } catch (error) {
 
-        return {error: errorResponse(timeout ? "TIME_OUT" : "FETCH_ERROR", "Unknown Error.")};
+        return {error: brokenResponse(timeout ? -1 : -2, error && typeof error === "object" && "message" in error && typeof error.message === "string" ? error.message : "")};
     } finally {
         clearTimeout(timeoutId)
         arg.abortController.signal.removeEventListener("abort", arg.abortController.abort);
@@ -40,8 +40,8 @@ const fetchApi = async (url: string, arg: ApiBaseRequestInit) => {
 
 const apiBaseQuery: BaseQueryFn<
     ApiBaseRequestInit,
-    Response<ResponseDataInterface>,
-    Response<ResponseStatusInterface>
+    XResponse<ResponseData>,
+    XResponse<ResponseData>
 > = async (
     args,
     _api
@@ -59,21 +59,21 @@ const apiBaseQuery: BaseQueryFn<
         headers,
         abortController,
         signal: abortController.signal,
-        timeout: args.timeout ? args.timeout : 5000
+        timeout: args.timeout ? args.timeout : 60000
     };
 
     return fetchApi(baseUrl + args.url, options)
 };
 
-const errorResponse = (status: any, message: string): Response<ResponseStatusInterface> => {
+const brokenResponse = (status: number, message: string): XResponse<BrokenHttp> => {
 
     return {
         data: {
             status,
-            date: new Date().getTime()
+            message,
+            date: new Date().getTime(),
         },
-        message,
-        code: -1
+        code: ResponseCodeMap[ResponseCodeEnum.BROKEN_HTTP]
     }
 }
 
@@ -101,7 +101,7 @@ const handleBody = (body: any, headers: Headers): BodyInit => {
     return body;
 }
 
-type ApiPayloadAction = PayloadAction<Response<ResponseDataInterface>, string, any, any>;
+type ApiPayloadAction = PayloadAction<XResponse<ResponseData>, string, any, any>;
 
 const apiSlice = createApi({
     reducerPath: "api",
@@ -109,7 +109,7 @@ const apiSlice = createApi({
 
         return apiBaseQuery(args, api, {});
     },
-    endpoints: () => ({})
+    endpoints: () => ({}),
 });
 
 export {type ApiPayloadAction, apiSlice};

@@ -6,7 +6,9 @@ type SignUpStepComp = React.FunctionComponent<{ submitStep: SignUpStepCompProps 
 interface SignUpStepCompProps {
     stepSubmitRef: React.MutableRefObject<HTMLAnchorElement | null>,
     stepIsLoadingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>],
-    stepSubmitResult: React.MutableRefObject<boolean>,
+    stepSubmitResult: React.MutableRefObject<boolean | null>,
+    stepEmail: React.MutableRefObject<string | null>,
+    stepVerification: React.MutableRefObject<string | null>,
 }
 
 interface SignUpStepInterface {

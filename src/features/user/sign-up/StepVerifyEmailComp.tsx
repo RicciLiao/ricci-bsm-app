@@ -1,12 +1,11 @@
-import {useAppSelector} from "../../../app/hooks.ts";
-import * as React from "react";
 import {TextField} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "./SignUpStepComp.tsx";
-import {bsmSlice, useVerifyCacheMutation} from "../../../app/api/bsmSlice.ts";
+import {useVerifyCacheMutation} from "../../../app/api/bsmSlice.ts";
+import React from "react";
+import {AppTips} from "../../../common/AppTips";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
-    userEmail: HTMLInputElement,
     captcha: HTMLInputElement,
 }
 
@@ -15,28 +14,36 @@ interface SignUpFormElements extends HTMLFormElement {
 }
 
 const StepVerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
-    const [verify, {isLoading}] = useVerifyCacheMutation();
-    const {data: captcha} = useAppSelector(bsmSlice.endpoints?.captcha.select());
 
-    const handleSubmit = async (e: React.FormEvent<SignUpFormElements>) => {
+    const [verify, {isLoading}] = useVerifyCacheMutation();
+
+    const handleSubmit = (e: React.FormEvent<SignUpFormElements>) => {
         e.preventDefault();
         submitStep.stepIsLoadingState[1](true);
 
         const {elements} = e.currentTarget;
-        const emailAddress = elements.userEmail.value;
+        const emailAddress = submitStep.stepEmail.current;
         const captchaCode = elements.captcha.value;
-
-        const result = await verify({k: captcha ? captcha.data.k : "", c: captchaCode, emailAddress}).unwrap();
-        submitStep.stepIsLoadingState[1](false);
-        // @ts-ignore
-        submitStep.stepSubmitResult.current = result.data.result;
+        if (emailAddress) {
+            verify({k: submitStep.stepVerification.current ?? '', c: captchaCode, emailAddress})
+                .unwrap()
+                .then((result) => {
+                    submitStep.stepSubmitResult.current = result.data.result;
+                })
+                .catch(() => {
+                    submitStep.stepSubmitResult.current = false;
+                })
+                .finally(() => {
+                    submitStep.stepIsLoadingState[1](false);
+                });
+        }
     }
 
     return (
         <FormBox onSubmit={handleSubmit}>
-            <TextField required label="Verification code" variant="filled" name="vc"
-                       helperText="please check the registration email and input the verification code." fullWidth/>
-            <LoadingButton type={'submit'} sx={{width: '80px', margin: '0 auto'}}
+            <TextField required label="Verification code" variant="standard" name="captcha" fullWidth
+                       helperText={AppTips.USER_SIGN_UP_VERIFY_EMAIL_001}/>
+            <LoadingButton type={'submit'} sx={{width: '80px', margin: '0 auto', display: 'none'}}
                            size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>
                 {`Next >`}
             </LoadingButton>

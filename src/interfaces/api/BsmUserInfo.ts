@@ -1,4 +1,4 @@
-interface User {
+interface BsmUserInfo {
     id?: number | null,
     loginName?: string | null,
     userName?: string | null,
@@ -13,4 +13,4 @@ interface User {
     version?: string | null
 }
 
-export {type User};
+export {type BsmUserInfo};
