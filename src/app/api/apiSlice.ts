@@ -1,10 +1,10 @@
 import {BaseQueryFn, createApi} from "@reduxjs/toolkit/query/react";
 import {isPlainObject, PayloadAction} from "@reduxjs/toolkit";
-import {XResponse} from "../../interfaces/api/x/response/XResponse";
-import {ResponseData} from "../../interfaces/api/x/response/data/ResponseData";
-import {BrokenHttp} from "../../interfaces/api/x/response/data/SimpleData";
-import {ResponseCodeEnum} from "../../common/ResponseCodeEnum";
-import {ResponseCodeMap} from "../../common/ResponseCodeMap";
+import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
+import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
+import {BrokenHttp} from "@interfaces/api/x/response/data/SimpleData.ts";
+import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
+import {ResponseCodeMap} from "@common/ResponseCodeMap.ts";
 
 interface ApiBaseRequestInit extends RequestInit {
     url: string;
@@ -59,7 +59,7 @@ const apiBaseQuery: BaseQueryFn<
         headers,
         abortController,
         signal: abortController.signal,
-        timeout: args.timeout ? args.timeout : 60000
+        timeout: args.timeout ? args.timeout : 9999999
     };
 
     return fetchApi(baseUrl + args.url, options)

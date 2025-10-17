@@ -1,9 +1,9 @@
 import {Action, configureStore, ThunkAction} from "@reduxjs/toolkit";
-import appThemeSlice from "../features/appThemeSlice.ts";
-import {apiSlice} from "./api/apiSlice.ts";
+import appThemeSlice from "@/features/appThemeSlice.ts";
+import {apiSlice} from "@app/api/apiSlice.ts";
 import appSnackbarSlice from "../features/appSnackbarSlice.ts";
-import {XResponseCodeMiddleware} from "./middleware/x/XResponseCodeMiddleware";
-import {XResponseRTKMiddleware} from "./middleware/x/XResponseRTKMiddleware";
+import {XResponseRTKMiddleware} from "@app/middleware/x/XResponseRTKMiddleware.ts";
+import {XResponseCodeMiddleware} from "@app/middleware/x/XResponseCodeMiddleware.ts";
 
 const store = configureStore({
     reducer: {

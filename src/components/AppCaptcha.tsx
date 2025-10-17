@@ -1,7 +1,7 @@
 import {Box, CardMedia, Checkbox, CircularProgress, Grid2, IconButton, Stack, styled} from "@mui/material";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import {LoadingButton} from "@mui/lab";
-import {useLazyCaptchaQuery} from "../app/api/bsmSlice.ts";
+import {useLazyCaptchaQuery} from "@app/api/bsmSlice.ts";
 
 const AppCaptcha = () => {
     const [getCaptcha, {data, isFetching}] = useLazyCaptchaQuery();

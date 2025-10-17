@@ -1,12 +1,12 @@
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "./SignUpStepComp";
-import {useSignUpMutation} from "../../../app/api/bsmSlice";
 import {TextField} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import React, {useState} from "react";
-import {AppConstants} from "../../../common/AppConstants";
-import {AppTextFieldTips} from "../../../interfaces/AppTextFieldTips";
-import {AppTips} from "../../../common/AppTips";
-import {ResponseCodeEnum} from "../../../common/ResponseCodeEnum";
+import {AppTextFieldTips} from "@interfaces/AppTextFieldTips";
+import {AppTips} from "@common/AppTips";
+import {AppConstants} from "@common/AppConstants.ts";
+import {useSignUpMutation} from "@app/api/bsmSlice.ts";
+import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
+import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@/features/user/sign-up/SignUpStepComp.tsx";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     loginName: HTMLInputElement,
@@ -63,7 +63,7 @@ const loginNameCheck = (
     setStatus({error: false, tip: AppTips.USER_SIGN_UP_COMPLETE_001});
 }
 
-const StepCompleteComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
+const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
     const [loginNameTips, setLoginNameTips] = useState<AppTextFieldTips>({
         error: false,
         tip: AppTips.USER_SIGN_UP_COMPLETE_001
@@ -77,6 +77,10 @@ const StepCompleteComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStep
 
     const handleSubmit = (e: React.FormEvent<SignUpFormElements>) => {
         e.preventDefault();
+        if (loginNameTips.error || userPasswordTips.error) {
+
+            return;
+        }
 
         submitStep.stepIsLoadingState[1](true);
         const {elements} = e.currentTarget;
@@ -101,12 +105,11 @@ const StepCompleteComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStep
                 submitStep.stepEmail.current = null;
                 submitStep.stepVerification.current = null
             })
-
     }
 
     return (
         <FormBox onSubmit={handleSubmit}>
-            <TextField required label="User Name" variant="standard" name="loginName" fullWidth
+            <TextField required label="Login Name" variant="standard" name="loginName" fullWidth
                        helperText={loginNameTips.tip}
                        error={loginNameTips.error}
                        onBlur={e => loginNameCheck(e, setLoginNameTips)}
@@ -124,4 +127,4 @@ const StepCompleteComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStep
     );
 }
 
-export {StepCompleteComp}
+export {RegisterComp}

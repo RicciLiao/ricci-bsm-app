@@ -1,8 +1,8 @@
 import {AbstractXResponseMiddleware} from "./AbstractXResponseMiddleware";
 import {isFulfilled, MiddlewareAPI} from "@reduxjs/toolkit";
-import {XResponse} from "../../../interfaces/api/x/response/XResponse";
-import {ResponseData} from "../../../interfaces/api/x/response/data/ResponseData";
-import {ApiPayloadAction} from "../../api/apiSlice";
+import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
+import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
+import {ApiPayloadAction} from "@app/api/apiSlice";
 
 class XResponseRTKMiddleware extends AbstractXResponseMiddleware {
 

@@ -20,7 +20,17 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+    /*  */
+    "baseUrl": "./src",
+    "typeRoots": ["./src/@types", "node_modules/@types"],
+    "paths": {
+      "@/*": ["./*"],
+      "@app/*": ["app/*"],
+      "@common/*": ["common/*"],
+      "@interfaces/*": ["interfaces/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src/@types", "src"]
 }

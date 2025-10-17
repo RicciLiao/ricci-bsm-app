@@ -1,5 +1,5 @@
-import {ResponseCode} from "../interfaces/api/x/response/code/ResponseCode";
-import {ResponseCodeEnum} from "./ResponseCodeEnum";
+import {ResponseCode} from "@interfaces/api/x/response/code/ResponseCode";
+import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
 
 const ResponseCodeMap: Record<ResponseCodeEnum, ResponseCode> = {
     [ResponseCodeEnum.SUCCESS]: {id: "0000", message: "", messageId: 0},

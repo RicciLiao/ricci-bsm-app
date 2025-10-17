@@ -1,9 +1,10 @@
 import {TextField} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "./SignUpStepComp.tsx";
-import {useVerifyCacheMutation} from "../../../app/api/bsmSlice.ts";
 import React from "react";
-import {AppTips} from "../../../common/AppTips";
+import {usePreSignUpMutation} from "@app/api/bsmSlice.ts";
+import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
+import {AppTips} from "@common/AppTips.ts";
+import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@/features/user/sign-up/SignUpStepComp.tsx";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     captcha: HTMLInputElement,
@@ -13,9 +14,9 @@ interface SignUpFormElements extends HTMLFormElement {
     readonly elements: SignUpFormFields
 }
 
-const StepVerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
+const VerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
 
-    const [verify, {isLoading}] = useVerifyCacheMutation();
+    const [verify, {isLoading}] = usePreSignUpMutation();
 
     const handleSubmit = (e: React.FormEvent<SignUpFormElements>) => {
         e.preventDefault();
@@ -28,7 +29,8 @@ const StepVerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpS
             verify({k: submitStep.stepVerification.current ?? '', c: captchaCode, emailAddress})
                 .unwrap()
                 .then((result) => {
-                    submitStep.stepSubmitResult.current = result.data.result;
+                    submitStep.stepSubmitResult.current = result.code.id === ResponseCodeEnum.SUCCESS;
+                    submitStep.stepVerification.current = result.data.result;
                 })
                 .catch(() => {
                     submitStep.stepSubmitResult.current = false;
@@ -51,4 +53,4 @@ const StepVerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpS
     );
 };
 
-export {StepVerifyEmailComp};
+export {VerifyEmailComp};

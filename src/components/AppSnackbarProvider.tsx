@@ -1,5 +1,5 @@
-import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
-import {removeSnackbar, selectCurrentSnackbar} from "../features/appSnackbarSlice.ts";
+import {useAppDispatch, useAppSelector} from "@app/hooks";
+import {removeSnackbar, selectCurrentSnackbar} from "@/features/appSnackbarSlice.ts";
 import {forwardRef, useCallback, useEffect} from "react";
 import {CustomContentProps, SnackbarContent, SnackbarProvider, useSnackbar} from "notistack";
 import {Alert, AlertColor, AlertTitle, IconButton, Typography} from "@mui/material";

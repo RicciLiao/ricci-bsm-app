@@ -1,15 +1,17 @@
-import {StepSendEmailComp} from "../features/user/sign-up/StepSendEmailComp.tsx";
-import {StepVerifyEmailComp} from "../features/user/sign-up/StepVerifyEmailComp.tsx";
-import {SignUpStepInterface} from "../features/user/sign-up/SignUpStepComp.tsx";
-import {StepCompleteComp} from "../features/user/sign-up/StepCompleteComp";
+import {SignUpStepInterface} from "@/features/user/sign-up/SignUpStepComp.tsx";
+import {SendEmailComp} from "@/features/user/sign-up/step/SendEmailComp";
+import {VerifyEmailComp} from "@/features/user/sign-up/step/VerifyEmailComp";
+import {RegisterComp} from "@/features/user/sign-up/step/RegisterComp";
+import {CompleteComp} from "@/features/user/sign-up/step/CompleteComp";
 
 const AppConstants = {
     HTTP_METHOD_POST: "POST",
     HTTP_METHOD_GET: "GET",
     SIGN_UP_STEP: [
-        {code: 'a', description: 'Input your email', seq: 0, component: StepSendEmailComp, optional: true,},
-        {code: 'b', description: 'Verify your email', seq: 1, component: StepVerifyEmailComp, optional: true,},
-        {code: 'c', description: 'Complete your information', seq: 2, component: StepCompleteComp, optional: true,},
+        {code: 'a', description: 'Input Email', seq: 0, component: SendEmailComp, optional: false,},
+        {code: 'b', description: 'Verify Email', seq: 1, component: VerifyEmailComp, optional: false,},
+        {code: 'c', description: 'Complete Register', seq: 2, component: RegisterComp, optional: false,},
+        {code: 'd', description: 'Complete Information', seq: 3, component: CompleteComp, optional: true,},
     ] as SignUpStepInterface[],
     SNACKBAR_SEVERITY_TYPE: {
         S: "success",

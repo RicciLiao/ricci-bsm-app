@@ -1,5 +1,5 @@
-import {ResponseData} from "./data/ResponseData";
-import {ResponseCode} from "./code/ResponseCode";
+import {ResponseCode} from "@interfaces/api/x/response/code/ResponseCode.ts";
+import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
 
 interface XResponse<T extends ResponseData> {
     code: ResponseCode,

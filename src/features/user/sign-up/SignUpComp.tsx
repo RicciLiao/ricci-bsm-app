@@ -1,8 +1,8 @@
 import {useRef, useState} from "react";
 import {Box, Button, Card, Step, StepLabel, Stepper} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
-import {AppConstants} from "../../../common/AppConstants.ts";
-import {SignUpStepCompProps, SignUpStepInterface, StepBox} from "./SignUpStepComp.tsx";
+import {AppConstants} from "@common/AppConstants.ts";
+import {SignUpStepCompProps, SignUpStepInterface, StepBox} from "@/features/user/sign-up/SignUpStepComp.tsx";
 
 const SignUpComp = () => {
     const [activeStep, setActiveStep] = useState<SignUpStepInterface>(AppConstants.SIGN_UP_STEP[0]);

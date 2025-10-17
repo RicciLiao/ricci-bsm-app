@@ -1,14 +1,14 @@
-import {XResponse} from "../../interfaces/api/x/response/XResponse.ts";
-import {AppConstants} from "../../common/AppConstants.ts";
-import {apiSlice} from "./apiSlice.ts";
-import {VerifyCaptcha} from "../../interfaces/api/VerifyCaptcha";
-import {Captcha} from "../../interfaces/api/Captcha";
-import {Blank, Bool, Str} from "../../interfaces/api/x/response/data/SimpleData";
-import {BsmUserInfo} from "../../interfaces/api/BsmUserInfo";
+import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
+import {AppConstants} from "@common/AppConstants.ts";
+import {UserPreSignUp} from "@interfaces/api/UserPreSignUp.ts";
+import {Captcha} from "@interfaces/api/Captcha.ts";
+import {Blank, Str} from "@interfaces/api/x/response/data/SimpleData.ts";
+import {BsmUserInfo} from "@interfaces/api/BsmUserInfo.ts";
+import {apiSlice} from "@app/api/apiSlice.ts";
 
 const bsmSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        signUpSendPost: builder.mutation<XResponse<Str>, VerifyCaptcha>({
+        signUpSendPost: builder.mutation<XResponse<Str>, UserPreSignUp>({
             query: arg => ({
                 url: "/bsm/user/signUp/sendPost",
                 method: AppConstants.HTTP_METHOD_POST,
@@ -21,9 +21,9 @@ const bsmSlice = apiSlice.injectEndpoints({
                 method: AppConstants.HTTP_METHOD_GET
             }),
         }),
-        verifyCache: builder.mutation<XResponse<Bool>, VerifyCaptcha>({
+        preSignUp: builder.mutation<XResponse<Str>, UserPreSignUp>({
             query: (arg) => ({
-                url: "/bsm/captcha",
+                url: "/bsm/user/signUp/pre",
                 method: AppConstants.HTTP_METHOD_POST,
                 body: arg
             }),
@@ -42,7 +42,7 @@ export const {
     useSignUpSendPostMutation,
     useCaptchaQuery,
     useLazyCaptchaQuery,
-    useVerifyCacheMutation,
+    usePreSignUpMutation,
     useSignUpMutation,
 } = bsmSlice;
 

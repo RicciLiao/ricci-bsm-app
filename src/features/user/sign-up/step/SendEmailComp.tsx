@@ -1,12 +1,12 @@
-import {useAppSelector} from "../../../app/hooks.ts";
 import {Checkbox, FormControlLabel, FormGroup, Grid2, TextField} from "@mui/material";
-import {AppCaptcha} from "../../../components/AppCaptcha.tsx";
 import {LoadingButton} from "@mui/lab";
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "./SignUpStepComp.tsx";
-import {bsmSlice, useSignUpSendPostMutation} from "../../../app/api/bsmSlice.ts";
-import {ResponseCodeEnum} from "../../../common/ResponseCodeEnum";
 import React from "react";
-import {AppTips} from "../../../common/AppTips";
+import {ResponseCodeEnum} from "@/common/ResponseCodeEnum";
+import {AppTips} from "@/common/AppTips";
+import {AppCaptcha} from "@/components/AppCaptcha";
+import {useAppSelector} from "@app/hooks";
+import {bsmSlice, useSignUpSendPostMutation} from "@app/api/bsmSlice.ts";
+import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@/features/user/sign-up/SignUpStepComp.tsx";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     userEmail: HTMLInputElement,
@@ -17,7 +17,7 @@ interface SignUpFormElements extends HTMLFormElement {
     readonly elements: SignUpFormFields
 }
 
-const StepSendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
+const SendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
     const [sendPost, {isLoading}] = useSignUpSendPostMutation();
     const {data: captcha} = useAppSelector(bsmSlice.endpoints?.captcha.select());
 
@@ -72,4 +72,4 @@ const StepSendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpSte
     );
 };
 
-export {StepSendEmailComp};
+export {SendEmailComp};

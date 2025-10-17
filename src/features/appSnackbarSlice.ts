@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RootState} from "../app/store.ts";
-import {AppSnackbar} from "../interfaces/AppSnackbar.ts";
+import {RootState} from "@app/store.ts";
+import {AppSnackbar} from "@interfaces/AppSnackbar.ts";
 
 interface AppSnackbarState extends AppSnackbar {
 }

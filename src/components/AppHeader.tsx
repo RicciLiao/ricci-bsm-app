@@ -1,7 +1,7 @@
 import {AppBar, Box, Button, ButtonGroup, createTheme, IconButton, ThemeProvider, Toolbar, Typography} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
-import {custom, selectCurrentCss} from "../features/appThemeSlice.ts";
-import {apiSlice} from "../app/api/apiSlice";
+import {useAppDispatch, useAppSelector} from "@app/hooks";
+import {custom, selectCurrentCss} from "@/features/appThemeSlice.ts";
+import {apiSlice} from "@app/api/apiSlice";
 
 const AppHeader = () => {
 

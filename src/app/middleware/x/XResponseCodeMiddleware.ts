@@ -1,13 +1,13 @@
 import {AbstractXResponseMiddleware, getProjectCodeByAction, isApiSliceActionCompletedWithError, isHttpErrorPayload} from "./AbstractXResponseMiddleware";
 import {Dispatch, MiddlewareAPI, ThunkDispatch} from "@reduxjs/toolkit";
-import {ApiPayloadAction} from "../../api/apiSlice";
-import {AppSnackbar} from "../../../interfaces/AppSnackbar";
-import {XResponse} from "../../../interfaces/api/x/response/XResponse";
-import {ResponseData} from "../../../interfaces/api/x/response/data/ResponseData";
-import {AppConstants} from "../../../common/AppConstants";
-import {messageSlice} from "../../api/messageSlice";
+import {ApiPayloadAction} from "@app/api/apiSlice";
+import {AppSnackbar} from "@interfaces/AppSnackbar.ts";
+import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
+import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
+import {AppConstants} from "@common/AppConstants.ts";
+import {messageSlice} from "@app/api/messageSlice";
 import {Action} from "redux";
-import {addSnackbar} from "../../../features/appSnackbarSlice";
+import {addSnackbar} from "@/features/appSnackbarSlice.ts";
 
 export class XResponseCodeMiddleware extends AbstractXResponseMiddleware {
 

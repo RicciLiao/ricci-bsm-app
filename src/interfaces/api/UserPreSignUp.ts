@@ -1,7 +1,7 @@
-interface VerifyCaptcha {
+interface UserPreSignUp {
     k: string,
     c: string,
     emailAddress: string,
 }
 
-export {type VerifyCaptcha};
+export {type UserPreSignUp};

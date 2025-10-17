@@ -1,11 +1,11 @@
 import {Dispatch, isFulfilled, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch} from "@reduxjs/toolkit";
 import {Action} from "redux";
-import {ApiPayloadAction, apiSlice} from "../../api/apiSlice";
-import {bsmSlice} from "../../api/bsmSlice";
-import {XResponse} from "../../../interfaces/api/x/response/XResponse";
-import {ResponseCodeEnum} from "../../../common/ResponseCodeEnum";
-import {ResponseData} from "../../../interfaces/api/x/response/data/ResponseData";
-import {BrokenHttp} from "../../../interfaces/api/x/response/data/SimpleData";
+import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
+import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
+import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
+import {BrokenHttp} from "@interfaces/api/x/response/data/SimpleData.ts";
+import {ApiPayloadAction, apiSlice} from "@app/api/apiSlice.ts";
+import {bsmSlice} from "@app/api/bsmSlice.ts";
 
 const getProjectCodeByAction = (action: ApiPayloadAction): string => {
     if (Object.keys(bsmSlice.endpoints).find(endpointName => endpointName === action.meta.arg.endpointName)) {

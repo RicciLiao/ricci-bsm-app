@@ -1,4 +1,4 @@
-import {RootState} from "../app/store.ts";
+import {RootState} from "@app/store.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface AppThemeState {

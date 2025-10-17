@@ -1,8 +1,8 @@
-import {AppConstants} from "../../common/AppConstants.ts";
-import {apiSlice} from "./apiSlice.ts";
-import {MessageCode} from "../../interfaces/api/MessageCode.ts";
-import {XResponse} from "../../interfaces/api/x/response/XResponse.ts";
-import {GetMessage} from "../../interfaces/api/GetMessage";
+import {AppConstants} from "@common/AppConstants.ts";
+import {MessageCode} from "@interfaces/api/MessageCode.ts";
+import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
+import {GetMessage} from "@interfaces/api/GetMessage.ts";
+import {apiSlice} from "@app/api/apiSlice.ts";
 
 const messageSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
