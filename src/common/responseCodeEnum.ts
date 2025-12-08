@@ -1,4 +1,4 @@
-enum ResponseCodeEnum {
+enum responseCodeEnum {
     SUCCESS = "0000",
     SECURITY_ERROR = "1000",
     PARAMETER_ERROR = "2000",
@@ -10,4 +10,4 @@ enum ResponseCodeEnum {
 }
 
 
-export {ResponseCodeEnum}
+export {responseCodeEnum}

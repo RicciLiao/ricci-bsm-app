@@ -3,9 +3,9 @@ import {LoadingButton} from "@mui/lab";
 import React, {useState} from "react";
 import {AppTextFieldTips} from "@interfaces/AppTextFieldTips";
 import {appTips} from "@common/appTips.ts";
-import {AppConstants} from "@common/AppConstants.ts";
+import {appConstants} from "@common/appConstants.ts";
 import {useSignUpMutation} from "@app/api/bsmSlice.ts";
-import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
+import {responseCodeEnum} from "@common/responseCodeEnum.ts";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
 import {produce} from "immer";
 
@@ -43,7 +43,7 @@ const passwordCheck = (
 
         return;
     }
-    if (!AppConstants.REGEX_ALPHA.test(password) || !AppConstants.REGEX_NUMERIC.test(password)) {
+    if (!appConstants.REGEX_ALPHA.test(password) || !appConstants.REGEX_NUMERIC.test(password)) {
         setStatus(produce(draft => {
             draft.userPassword.error = true;
         }));
@@ -74,7 +74,7 @@ const loginNameCheck = (
 
         return;
     }
-    if (!AppConstants.REGEX_ALPHA.test(loginName) || !AppConstants.REGEX_NUMERIC.test(loginName)) {
+    if (!appConstants.REGEX_ALPHA.test(loginName) || !appConstants.REGEX_NUMERIC.test(loginName)) {
         setStatus(produce(draft => {
             draft.loginName.error = true;
         }));
@@ -120,7 +120,7 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
         })
             .unwrap()
             .then(result => {
-                submitStep.stepSubmitResult.current = result.code.id === ResponseCodeEnum.SUCCESS;
+                submitStep.stepSubmitResult.current = result.code.id === responseCodeEnum.SUCCESS;
             })
             .catch(() => {
                 submitStep.stepSubmitResult.current = false;

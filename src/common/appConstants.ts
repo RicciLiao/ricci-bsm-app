@@ -4,7 +4,7 @@ import {VerifyEmailComp} from "@features/user/sign/sign-up/step/VerifyEmailComp"
 import {RegisterComp} from "@features/user/sign/sign-up/step/RegisterComp";
 import {CompleteComp} from "@features/user/sign/sign-up/step/CompleteComp";
 
-const AppConstants = {
+const appConstants = {
     HTTP_METHOD_POST: "POST",
     HTTP_METHOD_GET: "GET",
     SIGN_UP_STEP: [
@@ -23,5 +23,5 @@ const AppConstants = {
     REGEX_NUMERIC: /\d+/,
 } as const;
 
-export {AppConstants};
+export {appConstants};
 

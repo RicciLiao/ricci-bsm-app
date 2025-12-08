@@ -1,12 +1,12 @@
 import {useRef, useState} from "react";
 import {Box, Button, Step, StepLabel, Stepper} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
-import {AppConstants} from "@common/AppConstants.ts";
+import {appConstants} from "@common/appConstants.ts";
 import {SignUpStepCompProps, SignUpStepInterface, StepBox} from '@features/user/sign/sign-up/SignUpStepComp.tsx';
 import {SignComp} from "@features/user/sign/SignComp.tsx";
 
 const SignUpComp = () => {
-    const [activeStep, setActiveStep] = useState<SignUpStepInterface>(AppConstants.SIGN_UP_STEP[3]);
+    const [activeStep, setActiveStep] = useState<SignUpStepInterface>(appConstants.SIGN_UP_STEP[3]);
     const [skipStepSet, setSkipStepSet] = useState<Set<SignUpStepInterface>>(new Set<SignUpStepInterface>());
     const [stepIsLoadingState, setStepIsLoadingState] = useState<boolean>(false);
     const submitStep: SignUpStepCompProps = {
@@ -28,15 +28,15 @@ const SignUpComp = () => {
             });
         });
         if (submitStep.stepSubmitResult.current) {
-            const nextIndex = AppConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1;
-            if (nextIndex < AppConstants.SIGN_UP_STEP.length) {
-                setActiveStep(AppConstants.SIGN_UP_STEP[nextIndex]);
+            const nextIndex = appConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1;
+            if (nextIndex < appConstants.SIGN_UP_STEP.length) {
+                setActiveStep(appConstants.SIGN_UP_STEP[nextIndex]);
             }
         }
         submitStep.stepSubmitResult.current = null;
     }
     const handleSkip = async () => {
-        setActiveStep(AppConstants.SIGN_UP_STEP[AppConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1]);
+        setActiveStep(appConstants.SIGN_UP_STEP[appConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1]);
         setSkipStepSet((prevState) => {
             const newSet = new Set<SignUpStepInterface>(prevState);
             newSet.add(activeStep);
@@ -56,7 +56,7 @@ const SignUpComp = () => {
             </Box>
             <h2>Sign Up</h2>
             <Stepper activeStep={activeStep.seq} alternativeLabel>
-                {AppConstants.SIGN_UP_STEP.map(step => {
+                {appConstants.SIGN_UP_STEP.map(step => {
                     const stepProps: { completed?: boolean } = {};
                     if (skipStepSet.has(step)) {
                         stepProps.completed = false;

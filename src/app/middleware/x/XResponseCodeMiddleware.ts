@@ -4,7 +4,7 @@ import {ApiPayloadAction} from "@app/api/apiSlice";
 import {AppSnackbar} from "@interfaces/AppSnackbar.ts";
 import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
 import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
-import {AppConstants} from "@common/AppConstants.ts";
+import {appConstants} from "@common/appConstants.ts";
 import {messageSlice} from "@app/api/messageSlice";
 import {addSnackbar} from "@features/appSnackbarSlice.ts";
 
@@ -18,7 +18,7 @@ export class XResponseCodeMiddleware extends AbstractXResponseMiddleware {
                 appSnackBar = {
                     code: payload.data.status,
                     date: payload.data.date,
-                    alertType: AppConstants.SNACKBAR_SEVERITY_TYPE.E,
+                    alertType: appConstants.SNACKBAR_SEVERITY_TYPE.E,
                     message: payload.data.message
                 };
                 api.dispatch(addSnackbar(appSnackBar));
@@ -30,7 +30,7 @@ export class XResponseCodeMiddleware extends AbstractXResponseMiddleware {
                 })).unwrap()
                     .then(result => {
                         const messageDate = result.data;
-                        const alertType = AppConstants.SNACKBAR_SEVERITY_TYPE[messageDate.level as keyof typeof AppConstants.SNACKBAR_SEVERITY_TYPE];
+                        const alertType = appConstants.SNACKBAR_SEVERITY_TYPE[messageDate.level as keyof typeof appConstants.SNACKBAR_SEVERITY_TYPE];
                         appSnackBar = {
                             code: messageDate.id,
                             date: new Date().getTime(),

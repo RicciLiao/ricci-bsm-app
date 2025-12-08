@@ -2,8 +2,8 @@ import {TextField} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import React from "react";
 import {usePreSignUpMutation} from "@app/api/bsmSlice.ts";
-import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
-import {appTips} from "@common/AppTips.ts";
+import {responseCodeEnum} from "@common/responseCodeEnum.ts";
+import {appTips} from "@common/appTips.ts";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
@@ -29,7 +29,7 @@ const VerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepC
             verify({k: submitStep.stepVerification.current ?? "", c: captchaCode, emailAddress})
                 .unwrap()
                 .then((result) => {
-                    submitStep.stepSubmitResult.current = result.code.id === ResponseCodeEnum.SUCCESS;
+                    submitStep.stepSubmitResult.current = result.code.id === responseCodeEnum.SUCCESS;
                     submitStep.stepVerification.current = result.data.result;
                 })
                 .catch(() => {

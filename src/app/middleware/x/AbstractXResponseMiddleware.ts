@@ -1,7 +1,7 @@
 import {Dispatch, isFulfilled, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch} from "@reduxjs/toolkit";
 import {Action} from "redux";
 import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
-import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
+import {responseCodeEnum} from "@common/responseCodeEnum.ts";
 import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
 import {BrokenHttp} from "@interfaces/api/x/response/data/SimpleData.ts";
 import {ApiPayloadAction, apiSlice} from "@app/api/apiSlice.ts";
@@ -19,7 +19,7 @@ const getProjectCodeByAction = (action: ApiPayloadAction): string => {
 
 const isHttpErrorPayload = (payload: XResponse<ResponseData>): payload is XResponse<BrokenHttp> => {
 
-    return payload && payload.code.id === ResponseCodeEnum.BROKEN_HTTP;
+    return payload && payload.code.id === responseCodeEnum.BROKEN_HTTP;
 }
 
 const isApiSliceAction = (action: any): action is ApiPayloadAction => {
@@ -29,7 +29,7 @@ const isApiSliceAction = (action: any): action is ApiPayloadAction => {
 
 const isApiSliceActionCompletedWithError = (action: ApiPayloadAction): boolean => {
 
-    return (isFulfilled(action) || isRejectedWithValue(action)) && action.payload && action.payload.code.id !== ResponseCodeEnum.SUCCESS;
+    return (isFulfilled(action) || isRejectedWithValue(action)) && action.payload && action.payload.code.id !== responseCodeEnum.SUCCESS;
 }
 
 const isApiSliceActionWithMeta = (action: ApiPayloadAction): boolean => {

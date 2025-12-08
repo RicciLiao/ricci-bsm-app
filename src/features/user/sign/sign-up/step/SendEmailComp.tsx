@@ -5,7 +5,7 @@ import {AppCaptcha} from "@/components/AppCaptcha";
 import {useAppSelector} from "@app/hooks";
 import {bsmSlice, useSignUpSendPostMutation} from "@app/api/bsmSlice.ts";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
-import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
+import {responseCodeEnum} from "@common/responseCodeEnum.ts";
 import {appTips} from "@common/appTips.ts";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
@@ -32,7 +32,7 @@ const SendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCom
         sendPost({k: captcha ? captcha.data.k : "", c: captchaCode, emailAddress})
             .unwrap()
             .then((result) => {
-                submitStep.stepSubmitResult.current = result.code.id === ResponseCodeEnum.SUCCESS;
+                submitStep.stepSubmitResult.current = result.code.id === responseCodeEnum.SUCCESS;
                 submitStep.stepEmail.current = emailAddress;
                 submitStep.stepVerification.current = result.data.result
             })

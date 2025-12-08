@@ -3,8 +3,8 @@ import {isPlainObject, PayloadAction} from "@reduxjs/toolkit";
 import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
 import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
 import {BrokenHttp} from "@interfaces/api/x/response/data/SimpleData.ts";
-import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
-import {ResponseCodeMap} from "@common/ResponseCodeMap.ts";
+import {responseCodeEnum} from "@common/responseCodeEnum.ts";
+import {responseCodeMap} from "@common/responseCodeMap.ts";
 
 interface ApiBaseRequestInit extends RequestInit {
     url: string;
@@ -73,7 +73,7 @@ const brokenResponse = (status: number, message: string): XResponse<BrokenHttp> 
             message,
             date: new Date().getTime(),
         },
-        code: ResponseCodeMap[ResponseCodeEnum.BROKEN_HTTP]
+        code: responseCodeMap[responseCodeEnum.BROKEN_HTTP]
     }
 }
 
