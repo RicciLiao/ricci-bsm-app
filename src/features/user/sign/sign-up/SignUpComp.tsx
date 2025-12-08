@@ -1,11 +1,12 @@
 import {useRef, useState} from "react";
-import {Box, Button, Card, Step, StepLabel, Stepper} from "@mui/material";
+import {Box, Button, Step, StepLabel, Stepper} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import {AppConstants} from "@common/AppConstants.ts";
-import {SignUpStepCompProps, SignUpStepInterface, StepBox} from "@/features/user/sign-up/SignUpStepComp.tsx";
+import {SignUpStepCompProps, SignUpStepInterface, StepBox} from '@features/user/sign/sign-up/SignUpStepComp.tsx';
+import {SignComp} from "@features/user/sign/SignComp.tsx";
 
 const SignUpComp = () => {
-    const [activeStep, setActiveStep] = useState<SignUpStepInterface>(AppConstants.SIGN_UP_STEP[0]);
+    const [activeStep, setActiveStep] = useState<SignUpStepInterface>(AppConstants.SIGN_UP_STEP[3]);
     const [skipStepSet, setSkipStepSet] = useState<Set<SignUpStepInterface>>(new Set<SignUpStepInterface>());
     const [stepIsLoadingState, setStepIsLoadingState] = useState<boolean>(false);
     const submitStep: SignUpStepCompProps = {
@@ -45,18 +46,10 @@ const SignUpComp = () => {
     }
 
     return (
-        <Card sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            margin: '0 auto',
-            maxWidth: '450px',
-            height: '100%',
-            padding: '20px',
-            boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-        }} variant="outlined">
+        <SignComp>
             <Box>
                 {activeStep.optional && (
-                    <Button sx={{float: 'right'}} size={'small'} onClick={handleSkip}>
+                    <Button sx={{float: "right"}} size={"small"} onClick={handleSkip}>
                         Skip
                     </Button>
                 )}
@@ -82,13 +75,13 @@ const SignUpComp = () => {
                 <activeStep.component submitStep={submitStep}/>
             </StepBox>
             <Box>
-                <LoadingButton type={'submit'} sx={{width: '80px', float: 'right'}}
-                               onClick={handleNext}
+                <LoadingButton type={"submit"} sx={{width: "80px", float: "right"}}
+                               onClick={handleNext} color={"secondary"}
                                size={"large"} loading={submitStep.stepIsLoadingState[0]}>
                     {`Next >`}
                 </LoadingButton>
             </Box>
-        </Card>
+        </SignComp>
     );
 };
 

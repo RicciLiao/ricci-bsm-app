@@ -1,9 +1,9 @@
 import {useAppDispatch, useAppSelector} from "@app/hooks";
-import {removeSnackbar, selectCurrentSnackbar} from "@/features/appSnackbarSlice.ts";
+import {removeSnackbar, selectCurrentSnackbar} from "@features/appSnackbarSlice.ts";
 import {forwardRef, useCallback, useEffect} from "react";
 import {CustomContentProps, SnackbarContent, SnackbarProvider, useSnackbar} from "notistack";
 import {Alert, AlertColor, AlertTitle, IconButton, Typography} from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import {format} from "date-fns";
 
 interface AppAlertInterface {
@@ -47,7 +47,7 @@ const AppSnackbarProvider = () => {
 
     return (
         <SnackbarProvider maxSnack={3}
-                          anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                          anchorOrigin={{vertical: "bottom", horizontal: "right"}}
                           Components={{
                               alert: AppAlert
                           }}

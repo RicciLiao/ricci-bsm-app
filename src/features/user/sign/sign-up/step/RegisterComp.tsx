@@ -2,90 +2,115 @@ import {TextField} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import React, {useState} from "react";
 import {AppTextFieldTips} from "@interfaces/AppTextFieldTips";
-import {AppTips} from "@common/AppTips";
+import {appTips} from "@common/appTips.ts";
 import {AppConstants} from "@common/AppConstants.ts";
 import {useSignUpMutation} from "@app/api/bsmSlice.ts";
 import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@/features/user/sign-up/SignUpStepComp.tsx";
+import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {produce} from "immer";
 
-interface SignUpFormFields extends HTMLFormControlsCollection {
+interface RegisterFormFields extends HTMLFormControlsCollection {
     loginName: HTMLInputElement,
     userPassword: HTMLInputElement,
 }
 
-interface SignUpFormElements extends HTMLFormElement {
-    readonly elements: SignUpFormFields
+interface RegisterFormElements extends HTMLFormElement {
+    readonly elements: RegisterFormFields
+}
+
+interface RegisterTips {
+    loginName: AppTextFieldTips,
+    userPassword: AppTextFieldTips,
 }
 
 const passwordCheck = (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-    setStatus: React.Dispatch<React.SetStateAction<AppTextFieldTips>>
+    setStatus: React.Dispatch<React.SetStateAction<RegisterTips>>,
 ) => {
     const password = e.target.value;
     if (!password) {
-        setStatus({error: false, tip: AppTips.USER_SIGN_UP_COMPLETE_002});
+        setStatus(produce(draft => {
+            draft.userPassword.error = false;
+            draft.userPassword.tip = appTips.USER_SIGN_UP_COMPLETE_002;
+        }));
 
         return;
     }
     if (password.length < 8) {
-        setStatus({error: true, tip: AppTips.USER_SIGN_UP_COMPLETE_002});
+        setStatus(produce(draft => {
+            draft.userPassword.error = true;
+        }));
 
         return;
     }
     if (!AppConstants.REGEX_ALPHA.test(password) || !AppConstants.REGEX_NUMERIC.test(password)) {
-        setStatus({error: true, tip: AppTips.USER_SIGN_UP_COMPLETE_002});
+        setStatus(produce(draft => {
+            draft.userPassword.error = true;
+        }));
 
         return;
     }
-    setStatus({error: false, tip: AppTips.USER_SIGN_UP_COMPLETE_002});
+    setStatus(produce(draft => {
+        draft.userPassword.error = false;
+    }));
 };
 
 const loginNameCheck = (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-    setStatus: React.Dispatch<React.SetStateAction<AppTextFieldTips>>
+    setStatus: React.Dispatch<React.SetStateAction<RegisterTips>>,
 ) => {
     const loginName = e.target.value;
     if (!loginName) {
-        setStatus({error: false, tip: AppTips.USER_SIGN_UP_COMPLETE_001});
+        setStatus(produce(draft => {
+            draft.loginName.error = false;
+        }));
 
         return;
     }
     if (loginName.length < 8) {
-        setStatus({error: true, tip: AppTips.USER_SIGN_UP_COMPLETE_001});
+        setStatus(produce(draft => {
+            draft.loginName.error = true;
+        }));
 
         return;
     }
     if (!AppConstants.REGEX_ALPHA.test(loginName) || !AppConstants.REGEX_NUMERIC.test(loginName)) {
-        setStatus({error: true, tip: AppTips.USER_SIGN_UP_COMPLETE_001});
+        setStatus(produce(draft => {
+            draft.loginName.error = true;
+        }));
 
         return;
     }
-    setStatus({error: false, tip: AppTips.USER_SIGN_UP_COMPLETE_001});
+    setStatus(produce(draft => {
+        draft.loginName.error = false;
+    }));
 }
 
 const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
-    const [loginNameTips, setLoginNameTips] = useState<AppTextFieldTips>({
-        error: false,
-        tip: AppTips.USER_SIGN_UP_COMPLETE_001
-    });
-    const [userPasswordTips, setUserPasswordTips] = useState<AppTextFieldTips>({
-        error: false,
-        tip: AppTips.USER_SIGN_UP_COMPLETE_002
+    const [tips, setTips] = useState<RegisterTips>({
+        loginName: {
+            error: false,
+            tip: appTips.USER_SIGN_UP_COMPLETE_001
+        },
+        userPassword: {
+            error: false,
+            tip: appTips.USER_SIGN_UP_COMPLETE_002
+        },
     });
 
     const [signUp, {isLoading}] = useSignUpMutation();
 
-    const handleSubmit = (e: React.FormEvent<SignUpFormElements>) => {
+    const handleSubmit = (e: React.FormEvent<RegisterFormElements>) => {
         e.preventDefault();
-        if (loginNameTips.error || userPasswordTips.error) {
+        if (tips.loginName.error || tips.userPassword.error) {
 
             return;
         }
 
         submitStep.stepIsLoadingState[1](true);
         const {elements} = e.currentTarget;
-        const loginName = elements.loginName.value;
         const userPassword = elements.loginName.value;
+        const loginName = elements.loginName.value;
 
         signUp({
             loginName,
@@ -110,16 +135,17 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
     return (
         <FormBox onSubmit={handleSubmit}>
             <TextField required label="Login Name" variant="standard" name="loginName" fullWidth
-                       helperText={loginNameTips.tip}
-                       error={loginNameTips.error}
-                       onBlur={e => loginNameCheck(e, setLoginNameTips)}
+                       helperText={tips.loginName.tip}
+                       error={tips.loginName.error}
+                       onBlur={e => loginNameCheck(e, setTips)}
+                       color={"error"}
             />
             <TextField required label="Password" variant="standard" name="userPassword" fullWidth type="password"
-                       helperText={userPasswordTips.tip}
-                       error={userPasswordTips.error}
-                       onBlur={e => passwordCheck(e, setUserPasswordTips)}
+                       helperText={tips.userPassword.tip}
+                       error={tips.userPassword.error}
+                       onBlur={e => passwordCheck(e, setTips)}
             />
-            <LoadingButton type={'submit'} sx={{width: '80px', margin: '0 auto', display: 'none'}}
+            <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
                            size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>
                 {`Next >`}
             </LoadingButton>

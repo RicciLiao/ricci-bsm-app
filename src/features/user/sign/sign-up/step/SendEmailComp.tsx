@@ -1,12 +1,12 @@
 import {Checkbox, FormControlLabel, FormGroup, Grid2, TextField} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import React from "react";
-import {ResponseCodeEnum} from "@/common/ResponseCodeEnum";
-import {AppTips} from "@/common/AppTips";
 import {AppCaptcha} from "@/components/AppCaptcha";
 import {useAppSelector} from "@app/hooks";
 import {bsmSlice, useSignUpSendPostMutation} from "@app/api/bsmSlice.ts";
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@/features/user/sign-up/SignUpStepComp.tsx";
+import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
+import {appTips} from "@common/appTips.ts";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     userEmail: HTMLInputElement,
@@ -38,7 +38,7 @@ const SendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCom
             })
             .catch(() => {
                 submitStep.stepSubmitResult.current = false;
-                submitStep.stepEmail.current = '';
+                submitStep.stepEmail.current = "";
             })
             .finally(() => {
                 submitStep.stepIsLoadingState[1](false);
@@ -48,25 +48,25 @@ const SendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCom
     return (
         <FormBox onSubmit={handleSubmit}>
             <TextField required label="Email" variant="standard" name="userEmail"
-                       helperText={AppTips.USER_SIGN_UP_SEND_EMAIL_001} fullWidth/>
+                       helperText={appTips.USER_SIGN_UP_SEND_EMAIL_001} fullWidth/>
             <Grid2 container spacing={1}>
                 <Grid2 size={5}>
                     <TextField label="Captcha Code"
                                id={"captcha"} name={"captcha"} variant={"standard"}
                                required/>
                 </Grid2>
-                <Grid2 size={7} sx={{alignContent: 'center', alignItems: 'center'}}>
+                <Grid2 size={7} sx={{alignContent: "center", alignItems: "center"}}>
                     <AppCaptcha/>
                 </Grid2>
             </Grid2>
-            <LoadingButton type={'submit'} sx={{width: '80px', margin: '0 auto', display: 'none'}}
+            <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
                            size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>
                 {`Next >`}
             </LoadingButton>
             <FormGroup>
                 <FormControlLabel required control={<Checkbox/>}
                                   label="I have read and agree to the following:"
-                                  sx={{'& .MuiFormControlLabel-label': {fontSize: '0.8rem'}}}/>
+                                  sx={{"& .MuiFormControlLabel-label": {fontSize: "0.8rem"}}}/>
             </FormGroup>
         </FormBox>
     );

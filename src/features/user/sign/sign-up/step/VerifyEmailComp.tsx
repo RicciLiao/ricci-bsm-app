@@ -3,8 +3,8 @@ import {LoadingButton} from "@mui/lab";
 import React from "react";
 import {usePreSignUpMutation} from "@app/api/bsmSlice.ts";
 import {ResponseCodeEnum} from "@common/ResponseCodeEnum.ts";
-import {AppTips} from "@common/AppTips.ts";
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@/features/user/sign-up/SignUpStepComp.tsx";
+import {appTips} from "@common/AppTips.ts";
+import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     captcha: HTMLInputElement,
@@ -26,7 +26,7 @@ const VerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepC
         const emailAddress = submitStep.stepEmail.current;
         const captchaCode = elements.captcha.value;
         if (emailAddress) {
-            verify({k: submitStep.stepVerification.current ?? '', c: captchaCode, emailAddress})
+            verify({k: submitStep.stepVerification.current ?? "", c: captchaCode, emailAddress})
                 .unwrap()
                 .then((result) => {
                     submitStep.stepSubmitResult.current = result.code.id === ResponseCodeEnum.SUCCESS;
@@ -44,8 +44,8 @@ const VerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepC
     return (
         <FormBox onSubmit={handleSubmit}>
             <TextField required label="Verification code" variant="standard" name="captcha" fullWidth
-                       helperText={AppTips.USER_SIGN_UP_VERIFY_EMAIL_001}/>
-            <LoadingButton type={'submit'} sx={{width: '80px', margin: '0 auto', display: 'none'}}
+                       helperText={appTips.USER_SIGN_UP_VERIFY_EMAIL_001}/>
+            <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
                            size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>
                 {`Next >`}
             </LoadingButton>

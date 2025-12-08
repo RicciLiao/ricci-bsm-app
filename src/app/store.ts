@@ -1,5 +1,5 @@
 import {Action, configureStore, ThunkAction} from "@reduxjs/toolkit";
-import appThemeSlice from "@/features/appThemeSlice.ts";
+import appThemeSlice from "@features/appThemeSlice.ts";
 import {apiSlice} from "@app/api/apiSlice.ts";
 import appSnackbarSlice from "../features/appSnackbarSlice.ts";
 import {XResponseRTKMiddleware} from "@app/middleware/x/XResponseRTKMiddleware.ts";

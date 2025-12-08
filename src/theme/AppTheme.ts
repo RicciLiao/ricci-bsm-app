@@ -1,88 +1,27 @@
-import {createTheme} from "@mui/material";
+import {colors, createTheme} from "@mui/material";
 
-const TEXT_FIELD_COLOR = 'gray';
-const TEXT_FIELD_COLOR_HOVER = 'green';
-const TEXT_FIELD_COLOR_FOCUS = 'blue';
+const defaultTheme = createTheme();
 
-const AppTheme = createTheme({
+const appTheme = createTheme(defaultTheme,
+    {
+        palette: {
+            off: {
+                main: colors.grey[500],
+            },
+            on: {
+                main: colors.green[500]
+            },
+        },
         components: {
-            MuiTextField: {
-                styleOverrides: {
-                    root: {
-                        variants: [
-                            {
-                                props: {
-                                    variant: 'standard'
-                                },
-                                style: {
-                                    '--TextField-color': 'gray',
-                                    '--TextField-color-hover': 'green',
-                                    '--TextField-color-focus': 'red',
-                                    '& label': {
-                                        color: TEXT_FIELD_COLOR,
-                                    },
-                                    '& label[data-shrink=true]': {
-                                        color: TEXT_FIELD_COLOR,
-                                        fontSize: '1.3rem',
-                                        top: '-0.1rem',
-                                        left: '-0.2rem',
-                                    },
-                                    '&:hover label': {
-                                        color: TEXT_FIELD_COLOR_HOVER,
-                                    },
-                                    '&:hover label[data-shrink=true]:not(.Mui-focused)': {
-                                        color: TEXT_FIELD_COLOR_HOVER,
-                                        fontSize: '1.3rem',
-                                        top: '-0.1rem',
-                                        left: '-0.2rem',
-                                    },
-                                    '& label.Mui-focused': {
-                                        color: TEXT_FIELD_COLOR_FOCUS,
-                                        fontSize: '1.3rem',
-                                        top: '-0.1rem',
-                                        left: '-0.2rem',
-                                    },
-                                }
-                            }
-                        ]
-                    },
-                },
-            },
-            MuiInput: {
-                styleOverrides: {
-                    root: {
-                        backgroundColor: "transparent !important",
-                        '&::before, &::after': {
-                            borderBottom: '2px solid ' + TEXT_FIELD_COLOR,
-                        },
-                        '&:hover:not(.Mui-disabled, .Mui-error):before': {
-                            borderBottom: '2px solid ' + TEXT_FIELD_COLOR_HOVER,
-                        },
-                        '&.Mui-focused:after': {
-                            borderBottom: '2px solid ' + TEXT_FIELD_COLOR_FOCUS,
-                        },
-                    }
-                }
-            },
             MuiButton: {
                 styleOverrides: {
                     root: {
                         variants: [
                             {
-                                props: {variant: 'text'},
+                                props: {variant: "text"},
                                 style: {
-                                    color: TEXT_FIELD_COLOR,
-                                    //border: '2px solid ' + TEXT_FIELD_COLOR,
-                                    //textTransform: 'none',
-                                    '&:focus': {
-                                        color: TEXT_FIELD_COLOR_FOCUS,
-                                        //border: '2px solid ' + TEXT_FIELD_COLOR_FOCUS + ' !important',
-                                        outline: 'none',
-                                        backgroundColor: "transparent !important",
-                                    },
-                                    '&:hover': {
-                                        //border: '2px solid ' + TEXT_FIELD_COLOR_HOVER,
-                                        color: TEXT_FIELD_COLOR_HOVER,
+                                    "&:focus": {
+                                        outline: "none",
                                         backgroundColor: "transparent !important",
                                     },
                                 }
@@ -90,29 +29,9 @@ const AppTheme = createTheme({
                         ]
                     }
                 }
-            },
-            MuiIconButton: {
-                styleOverrides: {
-                    root: {
-                        color: TEXT_FIELD_COLOR,
-                        //border: '2px solid ' + TEXT_FIELD_COLOR,
-                        //textTransform: 'none',
-                        '&:focus': {
-                            color: TEXT_FIELD_COLOR_FOCUS,
-                            //border: '2px solid ' + TEXT_FIELD_COLOR_FOCUS + ' !important',
-                            outline: 'none',
-                            backgroundColor: "transparent !important",
-                        },
-                        '&:hover': {
-                            //border: '2px solid ' + TEXT_FIELD_COLOR_HOVER,
-                            color: TEXT_FIELD_COLOR_HOVER,
-                            backgroundColor: "transparent !important",
-                        },
-                    }
-                }
             }
         }
-    })
-;
+    });
 
-export {AppTheme};
+
+export {defaultTheme, appTheme};

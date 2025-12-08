@@ -1,56 +1,40 @@
-import {AppBar, Box, Button, ButtonGroup, createTheme, IconButton, ThemeProvider, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Button, ButtonGroup, Toolbar, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "@app/hooks";
-import {custom, selectCurrentCss} from "@/features/appThemeSlice.ts";
+import {custom, selectCurrentTheme} from "@features/appThemeSlice.ts";
 import {apiSlice} from "@app/api/apiSlice";
+import {AppMenu} from "@/components/menu/AppMenu.tsx";
+import {AppThemeProvider} from "@/components/AppThemeProvider.tsx";
+import {appHeaderTheme} from "@theme/appHeaderTheme.ts";
 
 const AppHeader = () => {
 
-    const appTheme = useAppSelector(selectCurrentCss);
+    const currentTheme = useAppSelector(selectCurrentTheme);
     const dispatch = useAppDispatch();
 
     const changeStyle = () => {
-        dispatch(custom(!appTheme));
+        dispatch(custom(!currentTheme));
     }
     const resetApiState = () => {
         dispatch(apiSlice.util.resetApiState());
     }
 
-    const theme = createTheme({
-        palette: {
-            on: {
-                main: "#00ff00",
-            },
-            off: {
-                main: "#aaaaaa",
-            },
-        },
-    });
-
     return (
-        <Box sx={{flexGrow: 1}}>
-            <AppBar position="fixed">
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{mr: 2}}
-                    >
-                    </IconButton>
-                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}></Typography>
-                    <ThemeProvider theme={theme}>
+        <AppThemeProvider theme={appHeaderTheme} focus={true}>
+            <Box sx={{flexGrow: 1}}>
+                <AppBar position="fixed">
+                    <Toolbar>
+                        <AppMenu/>
+                        <Typography variant="h6" component="div" sx={{flexGrow: 1}}></Typography>
                         <ButtonGroup variant="text">
-                            <Button variant={"text"} onClick={changeStyle} color={appTheme ? "on" : "off"}>
+                            <Button variant={"text"} onClick={changeStyle} color={currentTheme ? "on" : "off"}>
                                 Custom Style
                             </Button>
                             <Button variant={"text"} onClick={resetApiState} color={"warning"}>Clean All API State</Button>
-                            <Button>Three</Button>
                         </ButtonGroup>
-                    </ThemeProvider>
-                </Toolbar>
-            </AppBar>
-        </Box>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+        </AppThemeProvider>
     );
 };
 

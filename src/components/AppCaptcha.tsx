@@ -16,12 +16,12 @@ const AppCaptcha = () => {
         return (
             <Grid2 container spacing={1}>
                 <Grid2 size={10}>
-                    <Stack spacing={0} sx={{alignContent: 'center', alignItems: 'center'}}>
-                        <CardMedia component="img" src={captcha} sx={{height: '55px !important'}}/>
+                    <Stack spacing={0} sx={{alignContent: "center", alignItems: "center"}}>
+                        <CardMedia component="img" src={captcha} sx={{height: "55px !important"}}/>
                     </Stack>
                 </Grid2>
                 <Grid2 size={2} sx={{display: "flex"}}>
-                    <IconButton onClick={handleGetCaptcha} disabled={isFetching} sx={{padding: '0'}}>
+                    <IconButton onClick={handleGetCaptcha} disabled={isFetching} sx={{padding: "0"}}>
                         {isFetching ? (
                             <CircularProgress size={24}/>
                         ) : (

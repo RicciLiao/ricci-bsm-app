@@ -46,7 +46,7 @@ const apiBaseQuery: BaseQueryFn<
     args,
     _api
 ) => {
-    const baseUrl = '/api';
+    const baseUrl = "/api";
     const headers: Headers = handleHeaders(args.headers, args.body);
     const body: BodyInit = handleBody(args.body, headers);
 
@@ -59,7 +59,7 @@ const apiBaseQuery: BaseQueryFn<
         headers,
         abortController,
         signal: abortController.signal,
-        timeout: args.timeout ? args.timeout : 9999999
+        timeout: args.timeout ?? 9999999
     };
 
     return fetchApi(baseUrl + args.url, options)

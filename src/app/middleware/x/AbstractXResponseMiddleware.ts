@@ -42,7 +42,7 @@ const isApiSliceActionWithMeta = (action: ApiPayloadAction): boolean => {
 }
 
 abstract class AbstractXResponseMiddleware<
-    D extends ThunkDispatch<S, any, Action> & Dispatch<Action> = ThunkDispatch<any, any, Action> & Dispatch<Action>,
+    D extends ThunkDispatch<S, any, Action> | Dispatch<Action> = ThunkDispatch<any, any, Action> | Dispatch<Action>,
     S = any
 > {
     support(action: any): action is ApiPayloadAction {
