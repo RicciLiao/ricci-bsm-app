@@ -98,6 +98,8 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
         },
     });
 
+    const test = {loginName: "loginName_", password: "password_"};
+
     const [signUp, {isLoading}] = useSignUpMutation();
 
     const handleSubmit = (e: React.FormEvent<RegisterFormElements>) => {
@@ -139,11 +141,13 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
                        error={tips.loginName.error}
                        onBlur={e => loginNameCheck(e, setTips)}
                        color={"error"}
+                       defaultValue={test.loginName}
             />
             <TextField required label="Password" variant="standard" name="userPassword" fullWidth type="password"
                        helperText={tips.userPassword.tip}
                        error={tips.userPassword.error}
                        onBlur={e => passwordCheck(e, setTips)}
+                       defaultValue={test.password}
             />
             <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
                            size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>

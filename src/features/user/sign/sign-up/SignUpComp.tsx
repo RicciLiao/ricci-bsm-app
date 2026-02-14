@@ -6,7 +6,7 @@ import {SignUpStepCompProps, SignUpStepInterface, StepBox} from '@features/user/
 import {SignComp} from "@features/user/sign/SignComp.tsx";
 
 const SignUpComp = () => {
-    const [activeStep, setActiveStep] = useState<SignUpStepInterface>(appConstants.SIGN_UP_STEP[3]);
+    const [activeStep, setActiveStep] = useState<SignUpStepInterface>(appConstants.SIGN_UP_STEP[0]);
     const [skipStepSet, setSkipStepSet] = useState<Set<SignUpStepInterface>>(new Set<SignUpStepInterface>());
     const [stepIsLoadingState, setStepIsLoadingState] = useState<boolean>(false);
     const submitStep: SignUpStepCompProps = {
