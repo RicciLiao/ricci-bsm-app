@@ -1,4 +1,3 @@
-import type {ButtonPropsColorOverrides as MuiButtonPropsColorOverrides} from "@mui/material/Button";
 import type {Palette as MuiPalette, PaletteOptions as MuiPaletteOptions} from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
@@ -14,7 +13,7 @@ declare module "@mui/material/styles" {
 }
 
 declare module "@mui/material/Button" {
-    interface ButtonPropsColorOverrides extends MuiButtonPropsColorOverrides {
+    interface ButtonPropsColorOverrides {
         on: true;
         off: true;
     }

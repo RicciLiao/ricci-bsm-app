@@ -1,4 +1,4 @@
-import {ResponseData} from "@interfaces/api/x/response/data/ResponseData.ts";
+import {ResponseData} from "x-common-components-app";
 
 interface Captcha extends ResponseData {
     k: string,

@@ -1,13 +1,13 @@
-import {TextField} from "@mui/material";
-import {LoadingButton} from "@mui/lab";
-import React, {useState} from "react";
-import {AppTextFieldTips} from "@interfaces/AppTextFieldTips";
-import {appTips} from "@common/appTips.ts";
+import {useSignUpMutation} from "@app/slice/api/bsmSlice.ts";
 import {appConstants} from "@common/appConstants.ts";
-import {useSignUpMutation} from "@app/api/bsmSlice.ts";
-import {responseCodeEnum} from "@common/responseCodeEnum.ts";
+import {appTips} from "@common/appTips.ts";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {AppTextFieldTips} from "@interfaces/AppTextFieldTips";
+import {LoadingButton} from "@mui/lab";
+import {TextField} from "@mui/material";
 import {produce} from "immer";
+import React, {useState} from "react";
+import {responseCodeEnum} from "x-common-components-app";
 
 interface RegisterFormFields extends HTMLFormControlsCollection {
     loginName: HTMLInputElement,
@@ -102,7 +102,7 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
 
     const [signUp, {isLoading}] = useSignUpMutation();
 
-    const handleSubmit = (e: React.FormEvent<RegisterFormElements>) => {
+    const handleSubmit = (e: React.SubmitEvent<RegisterFormElements>) => {
         e.preventDefault();
         if (tips.loginName.error || tips.userPassword.error) {
 

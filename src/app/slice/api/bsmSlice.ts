@@ -1,10 +1,8 @@
-import {XResponse} from "@interfaces/api/x/response/XResponse.ts";
 import {appConstants} from "@common/appConstants.ts";
-import {UserPreSignUp} from "@interfaces/api/UserPreSignUp.ts";
-import {Captcha} from "@interfaces/api/Captcha.ts";
-import {Blank, Str} from "@interfaces/api/x/response/data/SimpleData.ts";
 import {BsmUserInfo} from "@interfaces/api/BsmUserInfo.ts";
-import {apiSlice} from "@app/api/apiSlice.ts";
+import {Captcha} from "@interfaces/api/Captcha.ts";
+import {UserPreSignUp} from "@interfaces/api/UserPreSignUp.ts";
+import {apiSlice, Blank, Str, XResponse} from "x-common-components-app";
 
 const bsmSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({

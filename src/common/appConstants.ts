@@ -1,12 +1,13 @@
 import {SignUpStepInterface} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {CompleteComp} from "@features/user/sign/sign-up/step/CompleteComp";
+import {RegisterComp} from "@features/user/sign/sign-up/step/RegisterComp";
 import {SendEmailComp} from "@features/user/sign/sign-up/step/SendEmailComp";
 import {VerifyEmailComp} from "@features/user/sign/sign-up/step/VerifyEmailComp";
-import {RegisterComp} from "@features/user/sign/sign-up/step/RegisterComp";
-import {CompleteComp} from "@features/user/sign/sign-up/step/CompleteComp";
 
 const appConstants = {
     HTTP_METHOD_POST: "POST",
     HTTP_METHOD_GET: "GET",
+    PROJECT_CODE: "bsm",
     SIGN_UP_STEP: [
         {code: "a", description: "Input Email", seq: 0, component: SendEmailComp, optional: false,},
         {code: "b", description: "Verify Email", seq: 1, component: VerifyEmailComp, optional: false,},

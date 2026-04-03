@@ -1,10 +1,10 @@
-import {AppBar, Box, Button, ButtonGroup, Toolbar, Typography} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "@app/hooks";
-import {custom, selectCurrentTheme} from "@features/appThemeSlice.ts";
-import {apiSlice} from "@app/api/apiSlice";
-import {AppMenu} from "@/components/menu/AppMenu.tsx";
 import {AppThemeProvider} from "@/components/AppThemeProvider.tsx";
+import {AppMenu} from "@/components/menu/AppMenu.tsx";
+import {useAppDispatch, useAppSelector} from "@app/hooks";
+import {custom, selectCurrentTheme} from "@app/slice/appThemeSlice.ts";
+import {AppBar, Box, Button, ButtonGroup, Toolbar, Typography} from "@mui/material";
 import {appHeaderTheme} from "@theme/appHeaderTheme.ts";
+import {apiSlice} from "x-common-components-app";
 
 const AppHeader = () => {
 

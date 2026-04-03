@@ -1,7 +1,7 @@
-import {Card} from "@mui/material";
-import React from "react";
-import {signTheme} from "@theme/signTheme.ts";
 import {AppThemeProvider} from "@/components/AppThemeProvider.tsx";
+import {Card} from "@mui/material";
+import {signTheme} from "@theme/signTheme.ts";
+import React from "react";
 
 const SignComp = ({children}: { children: React.ReactNode }) => {
 

@@ -1,9 +1,8 @@
-import {Theme, ThemeProvider} from "@mui/material";
-import {ThemeProviderProps} from "@mui/material/styles/ThemeProvider";
 import {useAppSelector} from "@app/hooks.ts";
-import {selectCurrentTheme} from "@features/appThemeSlice.ts";
-import React from "react";
+import {selectCurrentTheme} from "@app/slice/appThemeSlice.ts";
+import {Theme, ThemeProvider, ThemeProviderProps} from "@mui/material";
 import {defaultTheme} from "@theme/appTheme.ts";
+import React from "react";
 
 const AppThemeProvider = ({children, theme, focus, ...props}: { children?: React.ReactNode, theme: Theme, focus?: boolean, props?: ThemeProviderProps<Theme> }) => {
     const appThemeStatus = useAppSelector(selectCurrentTheme);

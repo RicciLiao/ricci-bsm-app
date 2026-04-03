@@ -1,25 +1,22 @@
-import {Action, configureStore, ThunkAction} from "@reduxjs/toolkit";
-import appThemeSlice from "@features/appThemeSlice.ts";
-import {apiSlice} from "@app/api/apiSlice.ts";
-import appSnackbarSlice from "../features/appSnackbarSlice.ts";
-import {XResponseRTKMiddleware} from "@app/middleware/x/XResponseRTKMiddleware.ts";
-import {XResponseCodeMiddleware} from "@app/middleware/x/XResponseCodeMiddleware.ts";
+import appThemeSlice from "@app/slice/appThemeSlice.ts";
+import {appConstants} from "@common/appConstants.ts";
+import {Action, ThunkAction} from "@reduxjs/toolkit";
+import {createXStore} from "x-common-components-app";
 
-const store = configureStore({
-    reducer: {
+const store = createXStore({
+    projectCode: appConstants.PROJECT_CODE,
+    extraReducers: {
         appTheme: appThemeSlice,
-        appSnackbar: appSnackbarSlice,
-        [apiSlice.reducerPath]: apiSlice.reducer,
     },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware()
-            .concat(apiSlice.middleware)
-            .concat(new XResponseCodeMiddleware().build())
-            .concat(new XResponseRTKMiddleware().build())
 });
 
 export {store};
 export type AppStore = typeof store;
 export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+// Explicitly define RootState to include all reducers
+export interface RootState {
+    appSnackbar: ReturnType<typeof import("x-common-components-app").appSnackbarSliceReducer>;
+    api: ReturnType<typeof import("x-common-components-app").apiSlice.reducer>;
+    appTheme: ReturnType<typeof appThemeSlice>;
+}
 export type AppThunk = ThunkAction<void, RootState, unknown, Action>;

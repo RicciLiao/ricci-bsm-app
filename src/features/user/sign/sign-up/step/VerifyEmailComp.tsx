@@ -1,10 +1,10 @@
-import {TextField} from "@mui/material";
-import {LoadingButton} from "@mui/lab";
-import React from "react";
-import {usePreSignUpMutation} from "@app/api/bsmSlice.ts";
-import {responseCodeEnum} from "@common/responseCodeEnum.ts";
+import {usePreSignUpMutation} from "@app/slice/api/bsmSlice.ts";
 import {appTips} from "@common/appTips.ts";
 import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {LoadingButton} from "@mui/lab";
+import {TextField} from "@mui/material";
+import React from "react";
+import {responseCodeEnum} from "x-common-components-app";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     captcha: HTMLInputElement,
@@ -18,7 +18,7 @@ const VerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepC
 
     const [verify, {isLoading}] = usePreSignUpMutation();
 
-    const handleSubmit = (e: React.FormEvent<SignUpFormElements>) => {
+    const handleSubmit = (e: React.SubmitEvent<SignUpFormElements>) => {
         e.preventDefault();
         submitStep.stepIsLoadingState[1](true);
 

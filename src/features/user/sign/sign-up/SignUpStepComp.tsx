@@ -1,14 +1,14 @@
-import React from "react";
 import {Box, styled} from "@mui/material";
+import React from "react";
 
 type SignUpStepComp = React.FunctionComponent<{ submitStep: SignUpStepCompProps }>;
 
 interface SignUpStepCompProps {
-    stepSubmitRef: React.MutableRefObject<HTMLAnchorElement | null>,
+    stepSubmitRef: React.RefObject<HTMLAnchorElement | null>,
     stepIsLoadingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>],
-    stepSubmitResult: React.MutableRefObject<boolean | null>,
-    stepEmail: React.MutableRefObject<string | null>,
-    stepVerification: React.MutableRefObject<string | null>,
+    stepSubmitResult: React.RefObject<boolean | null>,
+    stepEmail: React.RefObject<string | null>,
+    stepVerification: React.RefObject<string | null>,
 }
 
 interface SignUpStepInterface {

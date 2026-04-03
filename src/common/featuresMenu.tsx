@@ -1,6 +1,6 @@
-import {AppMenuItem} from "@interfaces/AppMenuItem.ts";
-import {SignUpComp} from "@features/user/sign/sign-up/SignUpComp.tsx";
 import {SignInComp} from "@features/user/sign/sign-in/SignInComp.tsx";
+import {SignUpComp} from "@features/user/sign/sign-up/SignUpComp.tsx";
+import {AppMenuItem} from "x-common-components-app";
 
 const featuresMenu: AppMenuItem =
     {
