@@ -1,14 +1,17 @@
 import {Box, styled} from "@mui/material";
 import React from "react";
 
+/** Matches MUI `Button` / `LoadingButton` root ref when rendered as `<button>` (no `href`). */
+type SignUpStepSubmitButtonRef = React.ComponentRef<typeof import("@mui/material/Button").default>;
+
 type SignUpStepComp = React.FunctionComponent<{ submitStep: SignUpStepCompProps }>;
 
 interface SignUpStepCompProps {
-    stepSubmitRef: React.RefObject<HTMLAnchorElement | null>,
-    stepIsLoadingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>],
-    stepSubmitResult: React.RefObject<boolean | null>,
-    stepEmail: React.RefObject<string | null>,
-    stepVerification: React.RefObject<string | null>,
+    submitButtonRef: React.RefObject<SignUpStepSubmitButtonRef | null>,
+    loadingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>],
+    submitResultRef: React.RefObject<boolean | null>,
+    emailRef: React.RefObject<string | null>,
+    verificationRef: React.RefObject<string | null>,
 }
 
 interface SignUpStepInterface {
@@ -24,11 +27,10 @@ const StepBox = styled(Box)(() => ({
     padding: "20px",
 }));
 
-const FormBox = styled("form")(() => ({
-    display: "flex",
-    flexDirection: "column",
-    height: "100%",
-    gap: "20px",
-}));
-
-export {type SignUpStepComp, type SignUpStepInterface, StepBox, FormBox, type SignUpStepCompProps}
+export {
+    type SignUpStepComp,
+    type SignUpStepInterface,
+    StepBox,
+    type SignUpStepCompProps,
+    type SignUpStepSubmitButtonRef,
+}

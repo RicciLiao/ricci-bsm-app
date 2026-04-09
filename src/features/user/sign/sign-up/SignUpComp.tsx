@@ -1,39 +1,43 @@
-import {useRef, useState} from "react";
-import {Box, Button, Step, StepLabel, Stepper} from "@mui/material";
-import {LoadingButton} from "@mui/lab";
 import {appConstants} from "@common/appConstants.ts";
-import {SignUpStepCompProps, SignUpStepInterface, StepBox} from '@features/user/sign/sign-up/SignUpStepComp.tsx';
+import {SignUpStepCompProps, SignUpStepInterface, SignUpStepSubmitButtonRef, StepBox,} from '@features/user/sign/sign-up/SignUpStepComp.tsx';
 import {SignComp} from "@features/user/sign/SignComp.tsx";
+import {LoadingButton} from "@mui/lab";
+import {Box, Button, Step, StepLabel, Stepper} from "@mui/material";
+import {useRef, useState} from "react";
 
 const SignUpComp = () => {
     const [activeStep, setActiveStep] = useState<SignUpStepInterface>(appConstants.SIGN_UP_STEP[0]);
     const [skipStepSet, setSkipStepSet] = useState<Set<SignUpStepInterface>>(new Set<SignUpStepInterface>());
-    const [stepIsLoadingState, setStepIsLoadingState] = useState<boolean>(false);
+    const [loadingState, setLoadingState] = useState<boolean>(false);
+    const submitButtonRef = useRef<SignUpStepSubmitButtonRef | null>(null);
+    const submitResultRef = useRef<boolean | null>(null);
+    const emailRef = useRef<string | null>(null);
+    const verificationRef = useRef<string | null>(null);
     const submitStep: SignUpStepCompProps = {
-        stepSubmitRef: useRef<HTMLAnchorElement | null>(null),
-        stepIsLoadingState: [stepIsLoadingState, setStepIsLoadingState],
-        stepSubmitResult: useRef<boolean>(null),
-        stepEmail: useRef<string>(null),
-        stepVerification: useRef<string>(null),
-    }
+        submitButtonRef: submitButtonRef,
+        loadingState: [loadingState, setLoadingState],
+        submitResultRef: submitResultRef,
+        emailRef: emailRef,
+        verificationRef: verificationRef,
+    };
 
     const handleNext = async () => {
-        submitStep.stepSubmitRef.current?.click();
+        submitButtonRef.current?.click();
         await new Promise<void>((resolve) => {
             const stepSubmitResultChecker = setInterval(() => {
-                if (submitStep.stepSubmitResult.current != null) {
+                if (submitResultRef.current != null) {
                     clearInterval(stepSubmitResultChecker);
                     resolve();
                 }
             });
         });
-        if (submitStep.stepSubmitResult.current) {
+        if (submitResultRef.current) {
             const nextIndex = appConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1;
             if (nextIndex < appConstants.SIGN_UP_STEP.length) {
                 setActiveStep(appConstants.SIGN_UP_STEP[nextIndex]);
             }
         }
-        submitStep.stepSubmitResult.current = null;
+        submitResultRef.current = null;
     }
     const handleSkip = async () => {
         setActiveStep(appConstants.SIGN_UP_STEP[appConstants.SIGN_UP_STEP.findIndex(step => step === activeStep) + 1]);
@@ -77,7 +81,7 @@ const SignUpComp = () => {
             <Box>
                 <LoadingButton type={"submit"} sx={{width: "80px", float: "right"}}
                                onClick={handleNext} color={"secondary"}
-                               size={"large"} loading={submitStep.stepIsLoadingState[0]}>
+                               size={"large"} loading={loadingState}>
                     {`Next >`}
                 </LoadingButton>
             </Box>

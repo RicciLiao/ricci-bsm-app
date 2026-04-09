@@ -2,11 +2,12 @@ import {AppCaptcha} from "@/components/AppCaptcha";
 import {useAppSelector} from "@app/hooks";
 import {bsmSlice, useSignUpSendPostMutation} from "@app/slice/api/bsmSlice.ts";
 import {appTips} from "@common/appTips.ts";
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {FormBox} from "@features/user/sign/SignComp.tsx";
 import {LoadingButton} from "@mui/lab";
 import {Checkbox, FormControlLabel, FormGroup, Grid, TextField} from "@mui/material";
 import React from "react";
-import {responseCodeEnum} from "x-common-components-app";
+import {ResponseCodeEnum} from "x-common-components-app";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     userEmail: HTMLInputElement,
@@ -20,10 +21,17 @@ interface SignUpFormElements extends HTMLFormElement {
 const SendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
     const [sendPost, {isLoading}] = useSignUpSendPostMutation();
     const {data: captcha} = useAppSelector(bsmSlice.endpoints?.captcha.select());
+    const {
+        submitButtonRef,
+        loadingState,
+        submitResultRef,
+        emailRef,
+        verificationRef,
+    } = submitStep;
 
     const handleSubmit = (e: React.SubmitEvent<SignUpFormElements>) => {
         e.preventDefault();
-        submitStep.stepIsLoadingState[1](true);
+        loadingState[1](true);
 
         const {elements} = e.currentTarget;
         const emailAddress = elements.userEmail.value;
@@ -32,16 +40,23 @@ const SendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCom
         sendPost({k: captcha ? captcha.data.k : "", c: captchaCode, emailAddress})
             .unwrap()
             .then((result) => {
-                submitStep.stepSubmitResult.current = result.code.id === responseCodeEnum.SUCCESS;
-                submitStep.stepEmail.current = emailAddress;
-                submitStep.stepVerification.current = result.data.result
+                if (result.code.id.startsWith(ResponseCodeEnum.SUCCESS.id)) {
+                    submitResultRef.current = true;
+                    emailRef.current = emailAddress;
+                    verificationRef.current = result.data.data
+                } else {
+                    submitResultRef.current = false;
+                    emailRef.current = null;
+                    verificationRef.current = null
+                }
             })
             .catch(() => {
-                submitStep.stepSubmitResult.current = false;
-                submitStep.stepEmail.current = "";
+                submitResultRef.current = false;
+                emailRef.current = null;
+                verificationRef.current = null
             })
             .finally(() => {
-                submitStep.stepIsLoadingState[1](false);
+                loadingState[1](false);
             });
     }
 
@@ -60,7 +75,7 @@ const SendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCom
                 </Grid>
             </Grid>
             <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
-                           size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>
+                           size={"large"} loading={isLoading} ref={submitButtonRef}>
                 {`Next >`}
             </LoadingButton>
             <FormGroup>

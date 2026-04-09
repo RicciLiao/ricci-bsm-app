@@ -1,10 +1,12 @@
 import {usePreSignUpMutation} from "@app/slice/api/bsmSlice.ts";
 import {appTips} from "@common/appTips.ts";
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {FormBox} from "@features/user/sign/SignComp.tsx";
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import {LoadingButton} from "@mui/lab";
 import {TextField} from "@mui/material";
 import React from "react";
-import {responseCodeEnum} from "x-common-components-app";
+import {ResponseCodeEnum} from "x-common-components-app";
 
 interface SignUpFormFields extends HTMLFormControlsCollection {
     captcha: HTMLInputElement,
@@ -15,41 +17,55 @@ interface SignUpFormElements extends HTMLFormElement {
 }
 
 const VerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCompProps }) => {
-
+    const {
+        submitButtonRef,
+        loadingState,
+        submitResultRef,
+        emailRef,
+        verificationRef,
+    } = submitStep;
     const [verify, {isLoading}] = usePreSignUpMutation();
 
     const handleSubmit = (e: React.SubmitEvent<SignUpFormElements>) => {
         e.preventDefault();
-        submitStep.stepIsLoadingState[1](true);
+        loadingState[1](true);
 
         const {elements} = e.currentTarget;
-        const emailAddress = submitStep.stepEmail.current;
+        const emailAddress = emailRef.current;
         const captchaCode = elements.captcha.value;
         if (emailAddress) {
-            verify({k: submitStep.stepVerification.current ?? "", c: captchaCode, emailAddress})
+            verify({k: verificationRef.current ?? "", c: captchaCode, emailAddress})
                 .unwrap()
                 .then((result) => {
-                    submitStep.stepSubmitResult.current = result.code.id === responseCodeEnum.SUCCESS;
-                    submitStep.stepVerification.current = result.data.result;
+                    if(result.code.id.startsWith(ResponseCodeEnum.SUCCESS.id)){
+                        verificationRef.current = result.data.data;
+                        submitResultRef.current = true;
+                    } else {
+                        submitResultRef.current = false;
+                    }
                 })
                 .catch(() => {
-                    submitStep.stepSubmitResult.current = false;
+                    submitResultRef.current = false;
                 })
                 .finally(() => {
-                    submitStep.stepIsLoadingState[1](false);
+                    loadingState[1](false);
                 });
         }
     }
 
     return (
-        <FormBox onSubmit={handleSubmit}>
-            <TextField required label="Verification code" variant="standard" name="captcha" fullWidth
-                       helperText={appTips.USER_SIGN_UP_VERIFY_EMAIL_001}/>
-            <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
-                           size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>
-                {`Next >`}
-            </LoadingButton>
-        </FormBox>
+        <>
+            <ForwardToInboxIcon sx={{fontSize: "64px"}}/>
+            <FormBox onSubmit={handleSubmit}>
+                <label> The email verification code has been sent to {emailRef.current}.</label>
+                <TextField required label="Verification code" variant="standard" name="captcha" fullWidth
+                           helperText={appTips.USER_SIGN_UP_VERIFY_EMAIL_001}/>
+                <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
+                               size={"large"} loading={isLoading} ref={submitButtonRef}>
+                    {`Next >`}
+                </LoadingButton>
+            </FormBox>
+        </>
     );
 };
 

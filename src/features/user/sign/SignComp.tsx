@@ -1,5 +1,5 @@
 import {AppThemeProvider} from "@/components/AppThemeProvider.tsx";
-import {Card} from "@mui/material";
+import {Card, styled} from "@mui/material";
 import {signTheme} from "@theme/signTheme.ts";
 import React from "react";
 
@@ -22,5 +22,12 @@ const SignComp = ({children}: { children: React.ReactNode }) => {
     );
 }
 
+const FormBox = styled("form")(() => ({
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    gap: "20px",
+}));
 
-export {SignComp}
+
+export {SignComp, FormBox}

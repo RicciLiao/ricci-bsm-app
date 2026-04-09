@@ -15,7 +15,7 @@ export type AppStore = typeof store;
 export type AppDispatch = typeof store.dispatch;
 // Explicitly define RootState to include all reducers
 export interface RootState {
-    appSnackbar: ReturnType<typeof import("x-common-components-app").appSnackbarSliceReducer>;
+    appSnackbar: ReturnType<typeof import("x-common-components-app").AppSnackbarSliceReducer>;
     api: ReturnType<typeof import("x-common-components-app").apiSlice.reducer>;
     appTheme: ReturnType<typeof appThemeSlice>;
 }

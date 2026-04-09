@@ -1,13 +1,14 @@
 import {useSignUpMutation} from "@app/slice/api/bsmSlice.ts";
 import {appConstants} from "@common/appConstants.ts";
 import {appTips} from "@common/appTips.ts";
-import {FormBox, SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
+import {FormBox} from "@features/user/sign/SignComp.tsx";
 import {AppTextFieldTips} from "@interfaces/AppTextFieldTips";
 import {LoadingButton} from "@mui/lab";
 import {TextField} from "@mui/material";
 import {produce} from "immer";
 import React, {useState} from "react";
-import {responseCodeEnum} from "x-common-components-app";
+import {ResponseCodeEnum} from "x-common-components-app";
 
 interface RegisterFormFields extends HTMLFormControlsCollection {
     loginName: HTMLInputElement,
@@ -97,6 +98,13 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
             tip: appTips.USER_SIGN_UP_COMPLETE_002
         },
     });
+    const {
+        submitButtonRef,
+        loadingState,
+        submitResultRef,
+        emailRef,
+        verificationRef,
+    } = submitStep;
 
     const test = {loginName: "loginName_", password: "password_"};
 
@@ -109,7 +117,7 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
             return;
         }
 
-        submitStep.stepIsLoadingState[1](true);
+        loadingState[1](true);
         const {elements} = e.currentTarget;
         const userPassword = elements.loginName.value;
         const loginName = elements.loginName.value;
@@ -117,20 +125,18 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
         signUp({
             loginName,
             userPassword,
-            userEmail: submitStep.stepEmail.current,
-            k: submitStep.stepVerification.current ?? "",
+            userEmail: emailRef.current,
+            k: verificationRef.current ?? "",
         })
             .unwrap()
             .then(result => {
-                submitStep.stepSubmitResult.current = result.code.id === responseCodeEnum.SUCCESS;
+                submitResultRef.current = result.code.id.startsWith(ResponseCodeEnum.SUCCESS.id);
             })
             .catch(() => {
-                submitStep.stepSubmitResult.current = false;
+                submitResultRef.current = false;
             })
             .finally(() => {
-                submitStep.stepIsLoadingState[1](false);
-                submitStep.stepEmail.current = null;
-                submitStep.stepVerification.current = null
+                loadingState[1](false);
             })
     }
 
@@ -150,7 +156,7 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
                        defaultValue={test.password}
             />
             <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
-                           size={"large"} loading={isLoading} ref={submitStep.stepSubmitRef} href={""}>
+                           size={"large"} loading={isLoading} ref={submitButtonRef}>
                 {`Next >`}
             </LoadingButton>
         </FormBox>
