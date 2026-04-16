@@ -10,7 +10,7 @@ interface BsmUserInfo {
     createdDtm?: string | null,
     updatedBy?: string | null,
     updatedDtm?: string | null,
-    version?: string | null
+    version?: string | null,
 }
 
 export {type BsmUserInfo};

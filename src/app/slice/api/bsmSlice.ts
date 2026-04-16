@@ -26,9 +26,16 @@ const bsmSlice = apiSlice.injectEndpoints({
                 body: arg
             }),
         }),
-        signUp: builder.mutation<XResponse<Blank>, BsmUserInfo & { k: string }>({
-            query: ({k, ...body}) => ({
+        signUp: builder.mutation<XResponse<Blank>, { formData: FormData, k: string }>({
+            query: ({formData, k}) => ({
                 url: `/bsm/user/signUp?k=${k}`,
+                method: appConstants.HTTP_METHOD_POST,
+                body: formData,
+            }),
+        }),
+        signIn: builder.mutation<XResponse<BsmUserInfo>, BsmUserInfo & { k?: string }>({
+            query: ({k, ...body}) => ({
+                url: `/bsm/user/signIn?k=${k}`,
                 method: appConstants.HTTP_METHOD_POST,
                 body: body,
             }),
@@ -42,6 +49,7 @@ export const {
     useLazyCaptchaQuery,
     usePreSignUpMutation,
     useSignUpMutation,
+    useSignInMutation,
 } = bsmSlice;
 
 export {bsmSlice};
