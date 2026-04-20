@@ -12,6 +12,8 @@ interface SignUpStepCompProps {
     submitResultRef: React.RefObject<boolean | null>,
     emailRef: React.RefObject<string | null>,
     verificationRef: React.RefObject<string | null>,
+    avatarSrcRef: React.RefObject<string | null>,
+    userNameRef: React.RefObject<string | null>,
 }
 
 interface SignUpStepInterface {

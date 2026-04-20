@@ -145,6 +145,8 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
         submitResultRef,
         emailRef,
         verificationRef,
+        avatarSrcRef,
+        userNameRef,
     } = submitStep;
     const [signUp, {isLoading}] = useSignUpMutation();
     const [avatarSrc, setAvatarSrc] = React.useState<string | undefined>(undefined);
@@ -177,6 +179,10 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
             .unwrap()
             .then(result => {
                 submitResultRef.current = result.code.id.startsWith(ResponseCodeEnum.SUCCESS.id);
+                if (submitResultRef.current) {
+                    avatarSrcRef.current = avatarSrc ?? "";
+                    userNameRef.current = user.userName ?? "";
+                }
             })
             .catch(() => {
                 submitResultRef.current = false;
