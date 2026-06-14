@@ -1,11 +1,10 @@
 import "./App.css"
-import {AppThemeProvider} from "@/components/AppThemeProvider.tsx";
-import {AppHeader} from "@/components/menu/AppHeader.tsx";
 import {useAppDispatch, useAppSelector} from "@app/hooks";
 import {type RootState} from "@app/store.ts";
-import {appTheme} from "@theme/appTheme.ts";
+import {featuresMenu} from "@common/featuresMenu.tsx";
+import {Stack} from "@mui/material";
 import {Outlet} from "react-router-dom";
-import {AppSnackbarProvider as XAppSnackbarProvider} from "x-common-components-app";
+import {AppHeader, AppSnackbarProvider, appTheme, AppThemeProvider} from "x-common-components-app";
 
 const App = () => {
 
@@ -20,10 +19,14 @@ const AppSection = () => {
 
     return (
         <AppThemeProvider theme={appTheme}>
-            <XAppSnackbarProvider snackbarState={snackbarState} dispatch={dispatch}>
-                <AppHeader/>
-                <Outlet/>
-            </XAppSnackbarProvider>
+            <AppSnackbarProvider snackbarState={snackbarState} dispatch={dispatch}>
+                <Stack sx={{height: "64px", position: "absolute", width: "100vw", top: 0, left: 0, right: 0}}>
+                    <AppHeader menus={[featuresMenu]}/>
+                </Stack>
+                <Stack alignItems={"center"} justifyContent={"center"} sx={{height: "calc(100vh - 64px)", position: "absolute", top: "64px", left: "0px", right: "0px", bottom: "0px"}}>
+                    <Outlet/>
+                </Stack>
+            </AppSnackbarProvider>
         </AppThemeProvider>
     );
 };

@@ -1,12 +1,14 @@
 import appThemeSlice from "@app/slice/appThemeSlice.ts";
-import {appConstants} from "@common/appConstants.ts";
+import bsmEntryPathSlice from "@app/slice/bsmEntryPathSlice.tsx";
 import {Action, ThunkAction} from "@reduxjs/toolkit";
 import {createXStore} from "x-common-components-app";
+import {bsmConstants} from "../common/bsmConstants.ts";
 
 const store = createXStore({
-    projectCode: appConstants.PROJECT_CODE,
+    projectCode: bsmConstants.PROJECT_CODE,
     extraReducers: {
         appTheme: appThemeSlice,
+        bsmEntryPath: bsmEntryPathSlice,
     },
 });
 
@@ -18,5 +20,6 @@ export interface RootState {
     appSnackbar: ReturnType<typeof import("x-common-components-app").AppSnackbarSliceReducer>;
     api: ReturnType<typeof import("x-common-components-app").apiSlice.reducer>;
     appTheme: ReturnType<typeof appThemeSlice>;
+    bsmEntryPath: ReturnType<typeof bsmEntryPathSlice>;
 }
 export type AppThunk = ThunkAction<void, RootState, unknown, Action>;

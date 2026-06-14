@@ -1,3 +1,7 @@
+import {BsmIndex} from "@features/BsmIndex.tsx";
+import {EntryIndexComp} from "@features/entry/EntryIndexComp.tsx";
+import {EntryTreeComp} from "@features/entry/EntryTreeComp.tsx";
+import {FileEntryEditorComp} from "@features/entry/FileEntryEditorComp.tsx";
 import {SignInComp} from "@features/user/sign/sign-in/SignInComp.tsx";
 import {SignUpComp} from "@features/user/sign/sign-up/SignUpComp.tsx";
 import {StrictMode} from "react"
@@ -17,15 +21,22 @@ import "@fontsource/roboto/500-italic.css";
 import "@fontsource/roboto/700-italic.css";
 
 const router = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path="/" element={<App/>}>
-            <Route path="sign">
-                <Route path="up" element={<SignUpComp/>}/>
-                <Route path="in" element={<SignInComp/>}/>
+        createRoutesFromElements(
+            <Route path="/" element={<App/>}>
+                <Route path="sign">
+                    <Route path="up" element={<SignUpComp/>}/>
+                    <Route path="in" element={<SignInComp/>}/>
+                </Route>
+                <Route path="index" element={<BsmIndex/>}>
+                    <Route path="entry" element={<EntryIndexComp/>}>
+                        <Route path="file" element={<FileEntryEditorComp/>}/>
+                        <Route path="tree" element={<EntryTreeComp/>}/>
+                    </Route>
+                </Route>
             </Route>
-        </Route>
+        )
     )
-);
+;
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>

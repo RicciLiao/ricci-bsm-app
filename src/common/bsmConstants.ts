@@ -3,7 +3,7 @@ import {RegisterComp} from "@features/user/sign/sign-up/step/RegisterComp";
 import {SendEmailComp} from "@features/user/sign/sign-up/step/SendEmailComp";
 import {VerifyEmailComp} from "@features/user/sign/sign-up/step/VerifyEmailComp";
 
-const appConstants = {
+const bsmConstants = {
     HTTP_METHOD_POST: "POST",
     HTTP_METHOD_GET: "GET",
     PROJECT_CODE: "bsm",
@@ -20,7 +20,10 @@ const appConstants = {
     },
     REGEX_ALPHA: /[A-Za-z]+/,
     REGEX_NUMERIC: /\d+/,
+    ENTRY_TYPE_DIRECTORY: 10006,
+    ENTRY_TYPE_FILE: 10007,
+    STATUS_ACTIVE: 10000,
 } as const;
 
-export {appConstants};
+export {bsmConstants};
 

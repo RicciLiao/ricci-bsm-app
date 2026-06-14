@@ -27,7 +27,20 @@ const featuresMenu: AppMenuItem =
                         component: SignUpComp
                     },
                 ]
-            }
+            },
+            {
+                key: "index",
+                label: "Index",
+                sort: 2,
+                subMenuList: [
+                    {
+                        key: "entry",
+                        path: "/index/entry/tree",
+                        label: "Entry Index",
+                        sort: 0,
+                    },
+                ]
+            },
         ]
     }
 ;

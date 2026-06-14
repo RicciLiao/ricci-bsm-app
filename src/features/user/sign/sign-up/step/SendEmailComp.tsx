@@ -1,11 +1,11 @@
-import {AppCaptcha} from "@/components/AppCaptcha";
+import {BsmCaptcha} from "@/components/BsmCaptcha.tsx";
 import {useAppSelector} from "@app/hooks";
-import {bsmSlice, useSignUpSendPostMutation} from "@app/slice/api/bsmSlice.ts";
+import {bsmSlice} from "@app/slice/api/bsmSlice.ts";
+import {useSignUpSendPostMutation} from "@app/slice/api/bsmUserSlice.ts";
 import {appTips} from "@common/appTips.ts";
 import {SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
 import {FormBox} from "@features/user/sign/SignComp.tsx";
-import {LoadingButton} from "@mui/lab";
-import {Checkbox, FormControlLabel, FormGroup, Grid, TextField} from "@mui/material";
+import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField} from "@mui/material";
 import React from "react";
 import {ResponseCodeEnum} from "x-common-components-app";
 
@@ -71,13 +71,13 @@ const SendEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepCom
                                required/>
                 </Grid>
                 <Grid size={7} sx={{alignContent: "center", alignItems: "center"}}>
-                    <AppCaptcha/>
+                    <BsmCaptcha/>
                 </Grid>
             </Grid>
-            <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
-                           size={"large"} loading={isLoading} ref={submitButtonRef}>
+            <Button type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
+                    size={"large"} loading={isLoading} ref={submitButtonRef}>
                 {`Next >`}
-            </LoadingButton>
+            </Button>
             <FormGroup>
                 <FormControlLabel required control={<Checkbox/>}
                                   label="I have read and agree to the following:"

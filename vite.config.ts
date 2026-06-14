@@ -14,6 +14,10 @@ export default defineConfig({
             "@interfaces": path.resolve(__dirname, "./src/interfaces"),
             "@theme": path.resolve(__dirname, "./src/theme"),
             "@features": path.resolve(__dirname, "./src/features"),
+            // 强制使用同一个 MUI 实例，避免类型冲突
+            "@mui/material": path.resolve(__dirname, "./node_modules/@mui/material"),
+            "@mui/icons-material": path.resolve(__dirname, "./node_modules/@mui/icons-material"),
+            "@mui/lab": path.resolve(__dirname, "./node_modules/@mui/lab"),
         },
         dedupe: ["react", "react-dom", "@reduxjs/toolkit", "react-redux", "@emotion/react", "@emotion/cache", "@mui/material", "notistack"],
     },

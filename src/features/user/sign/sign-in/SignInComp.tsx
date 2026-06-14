@@ -1,9 +1,9 @@
-import {useSignInMutation} from "@app/slice/api/bsmSlice.ts";
+import {useSignInMutation} from "@app/slice/api/bsmUserSlice.ts";
 import {FormBox, SignComp} from "@features/user/sign/SignComp.tsx";
 import {AppTextFieldTips} from "@interfaces/AppTextFieldTips.ts";
-import {LoadingButton} from "@mui/lab";
-import {Box, TextField} from "@mui/material";
+import {Box, Button, TextField} from "@mui/material";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {ResponseCodeEnum} from "x-common-components-app";
 
 interface SignInFormFields extends HTMLFormControlsCollection {
@@ -22,6 +22,7 @@ interface SignInTips {
 
 
 const SignInComp = () => {
+    const navigate = useNavigate();
     const [tips, setTips] = useState<SignInTips>({
         loginName: {
             error: false,
@@ -43,7 +44,7 @@ const SignInComp = () => {
             .unwrap()
             .then(result => {
                 if (result.code.id.startsWith(ResponseCodeEnum.SUCCESS.id)) {
-                    alert("Sign in successful!");
+                    navigate("/entry");
                 } else {
                     setTips({
                         loginName: {
@@ -73,10 +74,10 @@ const SignInComp = () => {
                            error={tips.userPassword.error}
                 />
                 <Box>
-                    <LoadingButton type={"submit"} sx={{width: "80px", float: "right"}} color={"secondary"}
+                    <Button type={"submit"} sx={{width: "80px", float: "right"}} color={"secondary"}
                                    size={"large"} loading={isLoading}>
                         {`Next >`}
-                    </LoadingButton>
+                    </Button>
                 </Box>
             </FormBox>
         </SignComp>

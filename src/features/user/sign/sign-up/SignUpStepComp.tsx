@@ -1,7 +1,7 @@
 import {Box, styled} from "@mui/material";
 import React from "react";
 
-/** Matches MUI `Button` / `LoadingButton` root ref when rendered as `<button>` (no `href`). */
+/** Matches MUI `Button` / `Button` root ref when rendered as `<button>` (no `href`). */
 type SignUpStepSubmitButtonRef = React.ComponentRef<typeof import("@mui/material/Button").default>;
 
 type SignUpStepComp = React.FunctionComponent<{ submitStep: SignUpStepCompProps }>;

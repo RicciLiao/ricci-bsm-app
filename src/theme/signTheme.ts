@@ -1,7 +1,7 @@
-import {colors, createTheme} from "@mui/material";
-import {appTheme} from "@theme/appTheme.ts";
+import {colors, createTheme, ThemeOptions} from "@mui/material";
+import {appTheme} from "x-common-components-app";
 
-export const signTheme = createTheme(appTheme,
+export const signTheme = createTheme(appTheme as ThemeOptions,
     {
         palette: {
             secondary: {

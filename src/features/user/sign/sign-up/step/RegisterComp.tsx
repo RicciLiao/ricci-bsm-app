@@ -1,12 +1,11 @@
-import {useSignUpMutation} from "@app/slice/api/bsmSlice.ts";
-import {appConstants} from "@common/appConstants.ts";
+import {useSignUpMutation} from "@app/slice/api/bsmUserSlice.ts";
 import {appTips} from "@common/appTips.ts";
+import {bsmConstants} from "@common/bsmConstants.ts";
 import {SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
 import {FormBox} from "@features/user/sign/SignComp.tsx";
 import {BsmUserInfo} from "@interfaces/api/BsmUserInfo.ts";
 import {AppTextFieldTips} from "@interfaces/AppTextFieldTips";
-import {LoadingButton} from "@mui/lab";
-import {Avatar, Box, ButtonBase, TextField, Tooltip} from "@mui/material";
+import {Avatar, Box, Button, ButtonBase, TextField, Tooltip} from "@mui/material";
 import {produce} from "immer";
 import React, {useState} from "react";
 import {ResponseCodeEnum} from "x-common-components-app";
@@ -47,7 +46,7 @@ const passwordCheck = (
 
         return;
     }
-    if (!appConstants.REGEX_ALPHA.test(password) || !appConstants.REGEX_NUMERIC.test(password)) {
+    if (!bsmConstants.REGEX_ALPHA.test(password) || !bsmConstants.REGEX_NUMERIC.test(password)) {
         setStatus(produce(draft => {
             draft.userPassword.error = true;
         }));
@@ -78,7 +77,7 @@ const loginNameCheck = (
 
         return;
     }
-    if (!appConstants.REGEX_ALPHA.test(loginName) || !appConstants.REGEX_NUMERIC.test(loginName)) {
+    if (!bsmConstants.REGEX_ALPHA.test(loginName) || !bsmConstants.REGEX_NUMERIC.test(loginName)) {
         setStatus(produce(draft => {
             draft.loginName.error = true;
         }));
@@ -228,10 +227,10 @@ const RegisterComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepComp
                        error={tips.loginName.error} onBlur={e => loginNameCheck(e, setTips)}/>
             <TextField required label="Password" variant="standard" name="userPassword" fullWidth type="password"
                        helperText={tips.userPassword.tip} error={tips.userPassword.error} onBlur={e => passwordCheck(e, setTips)}/>
-            <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
-                           size={"large"} loading={isLoading} ref={submitButtonRef}>
+            <Button type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
+                    size={"large"} loading={isLoading} ref={submitButtonRef}>
                 {`Next >`}
-            </LoadingButton>
+            </Button>
         </FormBox>
     );
 }

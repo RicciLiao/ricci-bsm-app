@@ -1,10 +1,9 @@
-import {usePreSignUpMutation} from "@app/slice/api/bsmSlice.ts";
+import {usePreSignUpMutation} from "@app/slice/api/bsmUserSlice.ts";
 import {appTips} from "@common/appTips.ts";
 import {SignUpStepComp, SignUpStepCompProps} from "@features/user/sign/sign-up/SignUpStepComp.tsx";
 import {FormBox} from "@features/user/sign/SignComp.tsx";
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import {LoadingButton} from "@mui/lab";
-import {TextField} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import React from "react";
 import {ResponseCodeEnum} from "x-common-components-app";
 
@@ -37,7 +36,7 @@ const VerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepC
             verify({k: verificationRef.current ?? "", c: captchaCode, emailAddress})
                 .unwrap()
                 .then((result) => {
-                    if(result.code.id.startsWith(ResponseCodeEnum.SUCCESS.id)){
+                    if (result.code.id.startsWith(ResponseCodeEnum.SUCCESS.id)) {
                         verificationRef.current = result.data.data;
                         submitResultRef.current = true;
                     } else {
@@ -60,10 +59,10 @@ const VerifyEmailComp: SignUpStepComp = ({submitStep}: { submitStep: SignUpStepC
                 <label> The email verification code has been sent to {emailRef.current}.</label>
                 <TextField required label="Verification code" variant="standard" name="captcha" fullWidth
                            helperText={appTips.USER_SIGN_UP_VERIFY_EMAIL_001}/>
-                <LoadingButton type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
-                               size={"large"} loading={isLoading} ref={submitButtonRef}>
+                <Button type={"submit"} sx={{width: "80px", margin: "0 auto", display: "none"}}
+                        size={"large"} loading={isLoading} ref={submitButtonRef}>
                     {`Next >`}
-                </LoadingButton>
+                </Button>
             </FormBox>
         </>
     );
